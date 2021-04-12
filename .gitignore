@@ -9,3 +9,11 @@
 
 # rspec failure tracking
 .rspec_status
+
+# rbenv/rvm/...
+.ruby-version
+.ruby-gemset
+.gems/
+
+# validator working directory
+validator/
