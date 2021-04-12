@@ -1,0 +1,32 @@
+name: Validate spec fixtures
+
+on: push
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: "adopt"
+        java-version: "11" # LTS
+
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version:  "2.7"
+        bundler-cache: true
+
+    - name: Prepare validator
+      run: bundle exec rake validator:download
+
+    - name: Run validator
+      run: bundle exec rake validator:run
+
+    - uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: validation-results
+        path: validator/results/*
