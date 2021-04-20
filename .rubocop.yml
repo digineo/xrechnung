@@ -1,0 +1,375 @@
+# REQUIRES RUBOCOP 1.8.X
+
+AllCops:
+  Exclude:
+  - bin/**/*
+  - db/migrate/**/*
+  - db/schema.rb
+  - db/seeds.rb
+  - node_modules/**/*
+  - tmp/**/*
+  - vendor/**/*
+  - Gemfile
+  DisplayCopNames: true
+  StyleGuideCopsOnly: false
+  TargetRubyVersion: 2.7
+
+## Layout Cops - https://docs.rubocop.org/rubocop/cops_layout.html
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+  IndentationWidth: 2
+
+Layout/CaseIndentation:
+  EnforcedStyle: end
+
+Layout/EmptyLinesAroundArguments:
+  Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: false
+
+Layout/EndAlignment:
+  EnforcedStyleAlignWith: start_of_line
+
+Layout/ExtraSpacing:
+  AllowBeforeTrailingComments: true
+  ForceEqualSignAlignment: true
+
+Layout/FirstArrayElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+Layout/LineLength:
+  Exclude:
+    - spec/**/*.rb
+    - config/**/*.rb
+    - app/lib/cleanup.rb
+    - app/lib/takedown.rb
+  Max: 120
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+  IndentationWidth: 2
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/SpaceBeforeBlockBraces:
+  EnforcedStyleForEmptyBraces: space
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+Layout/SpaceInsideBlockBraces:
+  SpaceBeforeBlockParameters: true
+
+## Lint Cops - https://docs.rubocop.org/rubocop/cops_lint.html
+
+Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/RedundantDirGlobSort:
+  Enabled: false # this is only redundant in Ruby 3.0+
+
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: true
+  AllowComments: true
+  AllowEmptyLambdas: true # sometimes needed as fallback
+
+Lint/EmptyClass:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+
+Lint/ToEnumArguments:
+  Enabled: true
+
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/BinaryOperatorWithIdenticalOperands:
+  Enabled: false # generates false positives
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/DuplicateElsifCondition:
+  Enabled: true
+
+Lint/DuplicateRescueException:
+  Enabled: true
+
+Lint/EmptyConditionalBody:
+  AllowComments: false
+  Enabled: true
+
+Lint/FloatComparison:
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/OutOfRangeRegexpRef:
+  Enabled: true
+
+# maybe consider deactivating: we've got lot of namespaced exceptions, i.e.
+# something like:
+#
+#   module Foo
+#     Exception    = Class.new(StandardError)
+#     TimeoutError = Class.new(Exception)
+#   end
+#
+# which might cause false positives
+Lint/RaiseException:
+  Enabled: true
+
+Lint/SelfAssignment:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Lint/SuppressedException:
+  AllowComments: true
+
+Lint/TopLevelReturnWithArgument:
+  Enabled: true
+
+Lint/UnreachableLoop:
+  Enabled: true
+
+
+## Metrics Cops - https://docs.rubocop.org/rubocop/cops_metrics.html
+
+Metrics/AbcSize:
+  Exclude:
+    - spec/**/*.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*.rb
+    - config/**/*.rb
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ModuleLength:
+  CountComments: false  # count full line comments?
+  Max: 120
+
+Metrics/ParameterLists:
+  Max: 6
+
+## Naming Cops - https://docs.rubocop.org/rubocop/cops_naming.html
+
+Naming/AccessorMethodName:
+  Exclude:
+  - 'app/controllers/**/*.rb' # sigh, InheritedResources...
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  AllowedNames: [io, id, db, ex]
+
+Naming/RescuedExceptionsVariableName:
+  PreferredName: err
+
+## Style Cops - https://docs.rubocop.org/rubocop/cops_style.html
+
+Style/EndlessMethod:
+  Enabled: true
+
+Style/ArgumentsForwarding:
+  Enabled: true
+  AllowOnlyRestArgument: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
+Style/HashExcept:
+  Enabled: true
+
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: false # does not make code clearer
+
+Style/SwapValues:
+  Enabled: true
+
+Style/AccessorGrouping:
+  Enabled: false
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/BlockDelimiters:
+  AllowBracesOnProceduralOneLiners: true
+  EnforcedStyle: semantic
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Exclude:
+    - app/models/**/*.rb
+    - app/controllers/**/*.rb
+
+Style/Documentation:
+  Enabled: false
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+
+Style/ExplicitBlockArgument:
+  Enabled: true
+
+Style/ExponentialNotation:
+  Enabled: true
+  EnforcedStyle: engineering
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/GlobalStdStream:
+  Enabled: true
+
+Style/HashAsLastArrayItem:
+  Enabled: true
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/Lambda:
+  EnforcedStyle: literal
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/OptionalBooleanParameter:
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/SingleArgumentDig:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Style/StringConcatenation:
+  Enabled: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+require:
+  - rubocop-rspec
+
+RSpec/AnyInstance:
+  Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/DescribedClass:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+  - 'spec/features/**/*.rb'
+
+RSpec/ExampleLength:
+  Max: 30
+
+RSpec/ImplicitSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Max: 5
+  Exclude:
+  - 'spec/features/**/*.rb'
+
+RSpec/NestedGroups:
+  Max: 6
