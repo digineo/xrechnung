@@ -1,0 +1,10 @@
+<cac:PostalAddress>
+  <cbc:StreetName>Beispielgasse 17</cbc:StreetName>
+  <cbc:AdditionalStreetName>Haus A</cbc:AdditionalStreetName>
+  <cbc:CityName>Baustadt</cbc:CityName>
+  <cbc:PostalZone>12345</cbc:PostalZone>
+  <cbc:CountrySubentity>MusterBL</cbc:CountrySubentity>
+  <cac:Country>
+    <cbc:IdentificationCode>DE</cbc:IdentificationCode>
+  </cac:Country>
+</cac:PostalAddress>

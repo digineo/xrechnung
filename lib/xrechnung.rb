@@ -1,41 +1,69 @@
 require "xrechnung/version"
+require "xrechnung/party"
+require "xrechnung/postal_address"
+require "xrechnung/party_tax_scheme"
+require "xrechnung/party_legal_entity"
+require "xrechnung/contact"
 require "builder"
 
 module Xrechnung
   class Error < StandardError; end
 
   class Document
-
-    attr_accessor :id, :issue_date, :due_date, \
-      :invoice_type_code, :document_currency_code, :note,
-      :order_reference_id
-
-    attr_accessor :supplier, :customer
+    attr_accessor :id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
+      :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
+      :project_reference_id
 
     def initialize
       self.invoice_type_code      = 380
       self.document_currency_code = "EUR"
+      self.tax_currency_code      = "EUR"
+      self.notes                  = []
+    end
+
+    def note=(in_note)
+      notes << in_note
     end
 
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
-      xml.Invoice \
-        "xmlns:cac" => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-        "xmlns:cbc" => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-        "xmlns" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" do
-        xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:fdc:peppol.eu:2017:poacc:billing:3.0"
-        xml.cbc :ProfileID, "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
+      xml.ubl :Invoice, \
+        "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+        "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+        "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+        "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
+        "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
+        xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
         xml.cbc :DueDate, due_date
         xml.cbc :InvoiceTypeCode, invoice_type_code
+
+        notes.each do |note|
+          xml.cbc :Note, note
+        end
+
+        xml.cbc :TaxPointDate, tax_point_date
         xml.cbc :DocumentCurrencyCode, document_currency_code
-        xml.cbc :Note, note
+        xml.cbc :TaxCurrencyCode, tax_currency_code
+        xml.cbc :BuyerReference, buyer_reference
 
         xml.cac :OrderReference do
           xml.cbc :ID, order_reference_id
+        end
+
+        xml.cac :BillingReference do
+          billing_reference&.to_xml(xml)
+        end
+
+        xml.cac :ContractDocumentReference do
+          xml.cbc :ID, contract_document_reference_id
+        end
+
+        xml.cac :ProjectReference do
+          xml.cbc :ID, project_reference_id
         end
 
         xml.cac :AccountingSupplierParty do
@@ -48,20 +76,16 @@ module Xrechnung
 
       target
     end
-
   end
 
-
-  class Party
-    attr_accessor :name
+  class InvoiceDocumentReference
+    attr_accessor :id, :issue_date
 
     def to_xml(xml)
-      xml.cac :Party do
-        xml.cac :PartyName do
-          xml.cbc :Name, name
-        end
+      xml.cac :InvoiceDocumentReference do
+        xml.cbc :ID, id
+        xml.cbc :IssueDate, issue_date
       end
     end
   end
-
 end
