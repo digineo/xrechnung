@@ -4,6 +4,8 @@ require "xrechnung/postal_address"
 require "xrechnung/party_tax_scheme"
 require "xrechnung/party_legal_entity"
 require "xrechnung/contact"
+require "xrechnung/payment_means"
+require "xrechnung/payee_financial_account"
 require "builder"
 
 module Xrechnung
@@ -11,7 +13,7 @@ module Xrechnung
 
   Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
     :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
-    :project_reference_id, :tax_representative_party, keyword_init: true) do
+    :project_reference_id, :tax_representative_party, :payment_means, keyword_init: true) do
     def initialize(*args)
       super
 
@@ -78,6 +80,11 @@ module Xrechnung
         xml.cac :TaxRepresentativeParty do
           tax_representative_party&.to_xml(xml)
         end
+
+        xml.cac :PaymentMeans do
+          payment_means&.to_xml(xml)
+        end
+
       end
 
       target

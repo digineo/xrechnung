@@ -1,5 +1,6 @@
 require "date"
 load("spec/fixtures/ruby/party.rb")
+load("spec/fixtures/ruby/payment_means.rb")
 
 RSpec.describe Xrechnung do
   it "has a version number" do
@@ -54,6 +55,8 @@ RSpec.describe Xrechnung do
       ),
       nested:           false,
     )
+
+    doc.payment_means = build_payment_means
 
     expected = File.read("spec/fixtures/xrechnung.xml")
 
