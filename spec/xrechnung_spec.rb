@@ -2,6 +2,7 @@ require "date"
 load("spec/fixtures/ruby/party.rb")
 load("spec/fixtures/ruby/payment_means.rb")
 load("spec/fixtures/ruby/tax_total.rb")
+load("spec/fixtures/ruby/legal_monetary_total.rb")
 
 RSpec.describe Xrechnung do
   it "has a version number" do
@@ -62,6 +63,8 @@ RSpec.describe Xrechnung do
     doc.payment_terms_note = "Zahlungsziel: 10 Tage nach Zugang der Rechnung"
 
     doc.tax_total = build_tax_total
+
+    doc.legal_monetary_total = build_legal_monetary_total
 
     expected = File.read("spec/fixtures/xrechnung.xml")
 

@@ -1,0 +1,8 @@
+<cbc:LineExtensionAmount currencyID="EUR">2580.00</cbc:LineExtensionAmount>
+<cbc:TaxExclusiveAmount currencyID="EUR">2580.00</cbc:TaxExclusiveAmount>
+<cbc:TaxInclusiveAmount currencyID="EUR">2877.09</cbc:TaxInclusiveAmount>
+<cbc:AllowanceTotalAmount currencyID="EUR">0.00</cbc:AllowanceTotalAmount>
+<cbc:ChargeTotalAmount currencyID="EUR">0.00</cbc:ChargeTotalAmount>
+<cbc:PrepaidAmount currencyID="EUR">0.00</cbc:PrepaidAmount>
+<cbc:PayableRoundingAmount currencyID="EUR">0.00</cbc:PayableRoundingAmount>
+<cbc:PayableAmount currencyID="EUR">2877.09</cbc:PayableAmount>
