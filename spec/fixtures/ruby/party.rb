@@ -1,7 +1,7 @@
-load("spec/fixtures/postal_address.rb")
-load("spec/fixtures/party_tax_scheme.rb")
-load("spec/fixtures/party_legal_entity.rb")
-load("spec/fixtures/contact.rb")
+load("spec/fixtures/ruby/postal_address.rb")
+load("spec/fixtures/ruby/party_tax_scheme.rb")
+load("spec/fixtures/ruby/party_legal_entity.rb")
+load("spec/fixtures/ruby/contact.rb")
 
 def build_party
   party = Xrechnung::Party.new

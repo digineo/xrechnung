@@ -1,5 +1,5 @@
 require "spec_helper"
-load("spec/fixtures/party_tax_scheme.rb")
+load("spec/fixtures/ruby/party_tax_scheme.rb")
 
 RSpec.describe Xrechnung::PartyTaxScheme do
   it "generates xml" do

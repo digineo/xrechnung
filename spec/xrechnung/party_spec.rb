@@ -1,5 +1,5 @@
 require 'spec_helper'
-load("spec/fixtures/party.rb")
+load("spec/fixtures/ruby/party.rb")
 
 
 RSpec.describe Xrechnung::Party do

@@ -1,5 +1,5 @@
 require "spec_helper"
-load("spec/fixtures/contact.rb")
+load("spec/fixtures/ruby/contact.rb")
 
 RSpec.describe Xrechnung::Contact do
   it "generates xml" do

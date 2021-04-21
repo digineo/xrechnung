@@ -1,5 +1,5 @@
 require "spec_helper"
-load("spec/fixtures/postal_address.rb")
+load("spec/fixtures/ruby/postal_address.rb")
 
 RSpec.describe Xrechnung::PostalAddress do
   it "generates xml" do

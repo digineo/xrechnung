@@ -1,5 +1,5 @@
 require "date"
-load("spec/fixtures/party.rb")
+load("spec/fixtures/ruby/party.rb")
 
 RSpec.describe Xrechnung do
   it "has a version number" do

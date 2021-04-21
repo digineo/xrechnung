@@ -1,5 +1,5 @@
 require "spec_helper"
-load("spec/fixtures/party_legal_entity.rb")
+load("spec/fixtures/ruby/party_legal_entity.rb")
 
 RSpec.describe Xrechnung::PartyLegalEntity do
   it "generates xml" do
