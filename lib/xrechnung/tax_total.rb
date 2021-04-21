@@ -33,7 +33,7 @@ module Xrechnung
 
     # noinspection RubyResolve
     def to_xml(xml)
-      xml.cbc :TaxAmount, tax_amount.value_to_s, currencyID: tax_amount.currency_code
+      xml.cbc :TaxAmount, *tax_amount.xml_args
       tax_subtotals.each do |tax_subtotal|
         tax_subtotal&.to_xml(xml)
       end

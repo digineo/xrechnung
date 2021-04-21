@@ -10,16 +10,22 @@ require "xrechnung/tax_total"
 require "xrechnung/tax_subtotal"
 require "xrechnung/tax_category"
 require "xrechnung/legal_monetary_total"
+require "xrechnung/invoice_line"
+require "xrechnung/item"
+require "xrechnung/price"
+require "xrechnung/allowance_charge"
 require "xrechnung/currency"
+require "xrechnung/quantity"
+require "xrechnung/id"
 require "builder"
 
 module Xrechnung
   class Error < StandardError; end
 
   Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
-    :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
-    :project_reference_id, :tax_representative_party, :payment_means, :payment_terms_note,
-    :tax_total, :legal_monetary_total, keyword_init: true) do
+                        :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
+                        :project_reference_id, :tax_representative_party, :payment_means, :payment_terms_note,
+                        :tax_total, :legal_monetary_total, :invoice_lines, keyword_init: true) do
     def initialize(*args)
       super
 
@@ -27,6 +33,7 @@ module Xrechnung
       self.document_currency_code = "EUR"
       self.tax_currency_code      = "EUR"
       self.notes                  = []
+      self.invoice_lines          = []
     end
 
     def note=(in_note)
@@ -38,11 +45,11 @@ module Xrechnung
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
       xml.ubl :Invoice, \
-        "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-        "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-        "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-        "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
-        "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
+        "xmlns:ubl"                => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+              "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+              "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+              "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
+              "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
 
         xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
         xml.cbc :ID, id
@@ -101,6 +108,10 @@ module Xrechnung
 
         xml.cac :LegalMonetaryTotal do
           legal_monetary_total&.to_xml(xml)
+        end
+
+        invoice_lines.each do |invoice_line|
+          invoice_line&.to_xml(xml)
         end
       end
 

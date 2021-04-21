@@ -14,7 +14,7 @@ module Xrechnung
       members.each do |member|
         next if self[member].nil?
 
-        xml.cbc :"#{member.to_s.split("_").map(&:capitalize).join}", self[member].value_to_s, currencyID: self[member].currency_code
+        xml.cbc :"#{member.to_s.split("_").map(&:capitalize).join}", *self[member].xml_args
       end
       xml.target!
     end

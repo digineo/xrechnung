@@ -24,8 +24,8 @@ module Xrechnung
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :TaxSubtotal do
-        xml.cbc :TaxableAmount, taxable_amount.value_to_s, currencyID: taxable_amount.currency_code
-        xml.cbc :TaxAmount, tax_amount.value_to_s, currencyID: tax_amount.currency_code
+        xml.cbc :TaxableAmount, *taxable_amount.xml_args
+        xml.cbc :TaxAmount, *tax_amount.xml_args
         tax_category&.to_xml(xml)
       end
     end

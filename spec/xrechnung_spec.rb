@@ -3,6 +3,7 @@ load("spec/fixtures/ruby/party.rb")
 load("spec/fixtures/ruby/payment_means.rb")
 load("spec/fixtures/ruby/tax_total.rb")
 load("spec/fixtures/ruby/legal_monetary_total.rb")
+load("spec/fixtures/ruby/invoice_line.rb")
 
 RSpec.describe Xrechnung do
   it "has a version number" do
@@ -65,6 +66,34 @@ RSpec.describe Xrechnung do
     doc.tax_total = build_tax_total
 
     doc.legal_monetary_total = build_legal_monetary_total
+
+    doc.invoice_lines << build_invoice_line
+
+    doc.invoice_lines << Xrechnung::InvoiceLine.new(
+      id:                    1,
+      invoiced_quantity:     Xrechnung::Quantity.new(5, "XPP"),
+      line_extension_amount: 1285.70,
+      item:                  Xrechnung::Item.new(
+        description:                     "Dichtungsfolie 2.5 mm stark, 1.5 m breit",
+        name:                            "Dichtungsfolie",
+        standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
+        commodity_classification:        nil,
+        classified_tax_category:         Xrechnung::TaxCategory.new(
+          id:            "S",
+          percent:       7,
+          tax_scheme_id: "VAT",
+        ),
+      ),
+      price:                 Xrechnung::Price.new(
+        price_amount:     257.14,
+        base_quantity:    Xrechnung::Quantity.new(0, "XPP"),
+        allowance_charge: Xrechnung::AllowanceCharge.new(
+          charge_indicator: true,
+          amount:           0,
+          base_amount:      257.14,
+        ),
+      ),
+    )
 
     expected = File.read("spec/fixtures/xrechnung.xml")
 

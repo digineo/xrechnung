@@ -7,8 +7,8 @@ module Xrechnung
   #
   TaxCategory = Struct.new(:id, :percent, :tax_scheme_id, keyword_init: true) do
     # noinspection RubyResolve
-    def to_xml(xml)
-      xml.cac :TaxCategory do
+    def to_xml(xml, root_tag_name: :TaxCategory)
+      xml.cac root_tag_name do
         xml.cbc :ID, id
         xml.cbc :Percent, format("%.2f", percent)
         xml.cac :TaxScheme do
