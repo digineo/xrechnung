@@ -27,25 +27,24 @@ RSpec.describe Xrechnung do
 
     doc.supplier = build_party
 
-    party                                 = Xrechnung::Party.new
-    postal_address                        = Xrechnung::PostalAddress.new
-    postal_address.street_name            = "Malerweg 2"
-    postal_address.additional_street_name = "Hinterhof A"
-    postal_address.city_name              = "Großstadt"
-    postal_address.postal_zone            = "01091"
-    postal_address.country_subentity      = "Sachsen"
-    postal_address.country_id             = "DE"
-    party.postal_address                  = postal_address
-    party_legal_entity                    = Xrechnung::PartyLegalEntity.new
-    party_legal_entity.registration_name  = "Bauamt GmbH & Co KG"
-    party.party_legal_entity              = party_legal_entity
-    contact                               = Xrechnung::Contact.new
-    contact.name                          = "Manfred Mustermann"
-    contact.telephone                     = "+49 12345 98 765 - 44"
-    contact.electronic_mail               = "manfred.mustermann@bauamt.de"
-    build_contact_value                   = contact
-    party.contact                         = build_contact_value
-    doc.customer                          = party
+    doc.customer = Xrechnung::Party.new(
+      postal_address:     Xrechnung::PostalAddress.new(
+        street_name:            "Malerweg 2",
+        additional_street_name: "Hinterhof A",
+        city_name:              "Großstadt",
+        postal_zone:            "01091",
+        country_subentity:      "Sachsen",
+        country_id:             "DE",
+      ),
+      party_legal_entity: Xrechnung::PartyLegalEntity.new(
+        registration_name: "Bauamt GmbH & Co KG",
+      ),
+      contact:            Xrechnung::Contact.new(
+        name:            "Manfred Mustermann",
+        telephone:       "+49 12345 98 765 - 44",
+        electronic_mail: "manfred.mustermann@bauamt.de",
+      ),
+    )
 
     expected = File.read("spec/fixtures/xrechnung.xml")
 
