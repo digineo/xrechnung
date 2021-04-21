@@ -13,9 +13,10 @@ RSpec.configure do |config|
   end
 end
 
-def expect_xml_eq_fixture(entity, fixture_base_name)
-  expect(entity.to_xml(
-    Builder::XmlMarkup.new(indent: 2)
-  )).to eq File.read("spec/fixtures/scraps/#{fixture_base_name}.xml")
+def to_xml(entity)
+  entity.to_xml(Builder::XmlMarkup.new(indent: 2))
+end
 
+def expect_xml_eq_fixture(entity, fixture_base_name)
+  expect(to_xml(entity)).to eq File.read("spec/fixtures/scraps/#{fixture_base_name}.xml")
 end

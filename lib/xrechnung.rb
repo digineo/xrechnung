@@ -9,12 +9,12 @@ require "builder"
 module Xrechnung
   class Error < StandardError; end
 
-  class Document
-    attr_accessor :id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
-      :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
-      :project_reference_id
+  Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
+    :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
+    :project_reference_id, :tax_representative_party, keyword_init: true) do
+    def initialize(*args)
+      super
 
-    def initialize
       self.invoice_type_code      = 380
       self.document_currency_code = "EUR"
       self.tax_currency_code      = "EUR"
@@ -35,6 +35,7 @@ module Xrechnung
         "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
         "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
         "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
+
         xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
@@ -69,8 +70,13 @@ module Xrechnung
         xml.cac :AccountingSupplierParty do
           supplier&.to_xml(xml)
         end
+
         xml.cac :AccountingCustomerParty do
           customer&.to_xml(xml)
+        end
+
+        xml.cac :TaxRepresentativeParty do
+          tax_representative_party&.to_xml(xml)
         end
       end
 

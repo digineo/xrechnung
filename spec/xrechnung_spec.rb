@@ -46,6 +46,15 @@ RSpec.describe Xrechnung do
       ),
     )
 
+    doc.tax_representative_party = Xrechnung::Party.new(
+      name:             "",
+      postal_address:   Xrechnung::PostalAddress.new,
+      party_tax_scheme: Xrechnung::PartyTaxScheme.new(
+        tax_scheme_id: "VAT",
+      ),
+      nested:           false,
+    )
+
     expected = File.read("spec/fixtures/xrechnung.xml")
 
     # Remove XML comments
