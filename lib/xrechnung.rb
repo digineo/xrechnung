@@ -6,6 +6,10 @@ require "xrechnung/party_legal_entity"
 require "xrechnung/contact"
 require "xrechnung/payment_means"
 require "xrechnung/payee_financial_account"
+require "xrechnung/tax_total"
+require "xrechnung/tax_subtotal"
+require "xrechnung/tax_category"
+require "xrechnung/currency"
 require "builder"
 
 module Xrechnung
@@ -13,7 +17,8 @@ module Xrechnung
 
   Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
     :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
-    :project_reference_id, :tax_representative_party, :payment_means, keyword_init: true) do
+    :project_reference_id, :tax_representative_party, :payment_means, :payment_terms_note,
+    :tax_total, keyword_init: true) do
     def initialize(*args)
       super
 
@@ -85,6 +90,13 @@ module Xrechnung
           payment_means&.to_xml(xml)
         end
 
+        xml.cac :PaymentTerms do
+          xml.cbc :Note, payment_terms_note
+        end
+
+        xml.cac :TaxTotal do
+          tax_total&.to_xml(xml)
+        end
       end
 
       target

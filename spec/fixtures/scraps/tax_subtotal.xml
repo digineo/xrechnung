@@ -1,0 +1,11 @@
+<cac:TaxSubtotal>
+  <cbc:TaxableAmount currencyID="EUR">1294.30</cbc:TaxableAmount>
+  <cbc:TaxAmount currencyID="EUR">207.09</cbc:TaxAmount>
+  <cac:TaxCategory>
+    <cbc:ID>S</cbc:ID>
+    <cbc:Percent>16.00</cbc:Percent>
+    <cac:TaxScheme>
+      <cbc:ID>VAT</cbc:ID>
+    </cac:TaxScheme>
+  </cac:TaxCategory>
+</cac:TaxSubtotal>
