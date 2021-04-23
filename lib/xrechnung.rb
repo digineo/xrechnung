@@ -23,7 +23,7 @@ module Xrechnung
   class Error < StandardError; end
 
   Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
-                        :supplier, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
+                        :accounting_supplier_party, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
                         :project_reference_id, :tax_representative_party, :payment_means, :payment_terms_note,
                         :tax_total, :legal_monetary_total, :invoice_lines, keyword_init: true) do
     def initialize(*args)
@@ -83,7 +83,7 @@ module Xrechnung
         end
 
         xml.cac :AccountingSupplierParty do
-          supplier&.to_xml(xml)
+          accounting_supplier_party&.to_xml(xml)
         end
 
         xml.cac :AccountingCustomerParty do

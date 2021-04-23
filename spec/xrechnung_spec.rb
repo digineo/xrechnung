@@ -29,7 +29,7 @@ RSpec.describe Xrechnung do
     doc.contract_document_reference_id = 23_871_349
     doc.project_reference_id           = "Bauvorhaben Glücksstraße 4"
 
-    doc.supplier = build_party
+    doc.accounting_supplier_party = build_party
 
     doc.customer = Xrechnung::Party.new(
       postal_address:     Xrechnung::PostalAddress.new(
