@@ -19,8 +19,8 @@ RSpec.describe Xrechnung do
     doc.id                 = "0815-99-1-a"
     doc.issue_date         = Date.parse("2020-08-21")
     doc.due_date           = Date.parse("2020-08-31")
-    doc.note               = "#AAI#Rechnungsbetreff: Informationen zur Rechnung 1"
-    doc.note               = "#AAI#Informationen zur Rechnung 2"
+    doc.notes              = ["#AAI#Rechnungsbetreff: Informationen zur Rechnung 1",
+                              "#AAI#Informationen zur Rechnung 2"]
     doc.tax_point_date     = Date.new(2021, 4, 20)
     doc.buyer_reference    = "9900 0000 - 1234 56 - 23"
     doc.order_reference_id = "0815-99-1"
@@ -115,9 +115,11 @@ RSpec.describe Xrechnung do
   # rubocop:enable RSpec/ExampleLength
   #
 
-  it "omits tag if attribute is set to false" do
-    doc.billing_reference = false
+  it "omits tag if attribute is set to optional" do
+    expect(doc.to_xml).not_to include "<cac:BillingReference"
+  end
 
-    expect(doc.to_xml).to_not include "<cac:BillingReference"
+  it "sets defaults" do
+    expect(doc.to_xml).to include "<cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>"
   end
 end

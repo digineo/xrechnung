@@ -18,26 +18,160 @@ require "xrechnung/currency"
 require "xrechnung/quantity"
 require "xrechnung/id"
 require "builder"
+require "date"
 
 module Xrechnung
   class Error < StandardError; end
 
-  Document = Struct.new(:id, :issue_date, :due_date, :invoice_type_code, :document_currency_code, :notes, :order_reference_id,
-                        :accounting_supplier_party, :customer, :tax_point_date, :tax_currency_code, :buyer_reference, :billing_reference, :contract_document_reference_id,
-                        :project_reference_id, :tax_representative_party, :payment_means, :payment_terms_note,
-                        :tax_total, :legal_monetary_total, :invoice_lines, keyword_init: true) do
-    def initialize(*args)
-      super
+  module MemberContainer
+    def self.extended(base)
+      base.instance_variable_set :@members, {}
+    end
 
-      self.invoice_type_code      = 380
+    def member(member_name, type: nil, default: nil, optional: false)
+      @members[member_name] = { optional: optional }
+
+      attr_reader member_name
+      setter_name = :"#{member_name}="
+
+      if default
+        after_initialize do
+          send(setter_name, default)
+        end
+      end
+
+      define_method setter_name do |in_value|
+        if type && !in_value.is_a?(type)
+          raise ArgumentError, "expected #{type} for :#{member_name}, got: #{in_value.class}"
+        end
+
+        instance_variable_set :"@#{member_name}", in_value
+      end
+    end
+
+    def after_initialize(&block)
+      @after_initialize_blocks ||= []
+      if block
+        @after_initialize_blocks << block
+      else
+        @after_initialize_blocks
+      end
+    end
+  end
+
+  class InvoiceDocumentReference
+    attr_accessor :id, :issue_date
+
+    def to_xml(xml)
+      xml.cac :InvoiceDocumentReference do
+        xml.cbc :ID, id
+        xml.cbc :IssueDate, issue_date
+      end
+    end
+  end
+
+  class Document
+    extend MemberContainer
+
+    def members
+      self.class.instance_variable_get :@members
+    end
+
+    # Rechnungsnummer
+    #
+    # @!attribute id
+    #   @return [String]
+    member :id, type: String
+
+    # @!attribute issue_date
+    # @return [Date]
+    member :issue_date, type: Date
+
+    # @!attribute due_date
+    # @return [Date]
+    member :due_date, type: Date
+
+    # @!attribute invoice_type_code
+    # @return [Integer]
+    member :invoice_type_code, type: Integer, default: 380
+
+    # @!attribute document_currency_code
+    # @return [String]
+    member :document_currency_code, type: String
+
+    # @!attribute notes
+    # @return [Array]
+    member :notes, type: Array
+
+    # @!attribute order_reference_id
+    # @return [String]
+    member :order_reference_id, type: String
+
+    # @!attribute accounting_supplier_party
+    # @return [Xrechnung::Party]
+    member :accounting_supplier_party, type: Xrechnung::Party
+
+    # @!attribute customer
+    # @return [Xrechnung::Party]
+    member :customer, type: Xrechnung::Party
+
+    # @!attribute tax_point_date
+    # @return [Date]
+    member :tax_point_date, type: Date
+
+    # @!attribute tax_currency_code
+    # @return [String]
+    member :tax_currency_code, type: String
+
+    # @!attribute buyer_reference
+    # @return [String]
+    member :buyer_reference, type: String
+
+    # @!attribute billing_reference
+    # @return [Xrechnung::InvoiceDocumentReference]
+    member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
+
+    # @!attribute contract_document_reference_id
+    # @return [Integer]
+    member :contract_document_reference_id, type: Integer
+
+    # @!attribute project_reference_id
+    # @return [String]
+    member :project_reference_id, type: String
+
+    # @!attribute tax_representative_party
+    # @return [Xrechnung::Party]
+    member :tax_representative_party, type: Xrechnung::Party
+
+    # @!attribute payment_means
+    # @return [Xrechnung::PaymentMeans]
+    member :payment_means, type: Xrechnung::PaymentMeans
+
+    # @!attribute payment_terms_note
+    # @return [String]
+    member :payment_terms_note, type: String
+
+    # @!attribute tax_total
+    # @return [Xrechnung::TaxTotal]
+    member :tax_total, type: Xrechnung::TaxTotal
+
+    # @!attribute legal_monetary_total
+    # @return [Xrechnung::LegalMonetaryTotal]
+    member :legal_monetary_total, type: Xrechnung::LegalMonetaryTotal
+
+    # @!attribute invoice_lines
+    # @return [Array]
+    member :invoice_lines, type: Array
+
+    def initialize(**_kwargs)
       self.document_currency_code = "EUR"
       self.tax_currency_code      = "EUR"
       self.notes                  = []
       self.invoice_lines          = []
-    end
 
-    def note=(in_note)
-      notes << in_note
+      self.class.after_initialize.each do |block|
+        instance_eval &block
+      end
     end
 
     def to_xml(indent: 2, target: "")
@@ -50,7 +184,6 @@ module Xrechnung
               "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
               "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
               "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
-
         xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
@@ -70,7 +203,7 @@ module Xrechnung
           xml.cbc :ID, order_reference_id
         end
 
-        unless billing_reference == false
+        unless members[:billing_reference][:optional] && billing_reference.nil?
           xml.cac :BillingReference do
             billing_reference&.to_xml(xml)
           end
@@ -121,14 +254,4 @@ module Xrechnung
     end
   end
 
-  class InvoiceDocumentReference
-    attr_accessor :id, :issue_date
-
-    def to_xml(xml)
-      xml.cac :InvoiceDocumentReference do
-        xml.cbc :ID, id
-        xml.cbc :IssueDate, issue_date
-      end
-    end
-  end
 end
