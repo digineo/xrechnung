@@ -70,8 +70,10 @@ module Xrechnung
           xml.cbc :ID, order_reference_id
         end
 
-        xml.cac :BillingReference do
-          billing_reference&.to_xml(xml)
+        unless billing_reference == false
+          xml.cac :BillingReference do
+            billing_reference&.to_xml(xml)
+          end
         end
 
         xml.cac :ContractDocumentReference do

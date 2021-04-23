@@ -6,13 +6,16 @@ load("spec/fixtures/ruby/legal_monetary_total.rb")
 load("spec/fixtures/ruby/invoice_line.rb")
 
 RSpec.describe Xrechnung do
+  subject(:doc) do
+    Xrechnung::Document.new
+  end
+
   it "has a version number" do
     expect(Xrechnung::VERSION).not_to be nil
   end
 
   # rubocop:disable RSpec/ExampleLength
   it "generates XML" do
-    doc                    = Xrechnung::Document.new
     doc.id                 = "0815-99-1-a"
     doc.issue_date         = Date.parse("2020-08-21")
     doc.due_date           = Date.parse("2020-08-31")
@@ -103,4 +106,11 @@ RSpec.describe Xrechnung do
     expect(doc.to_xml).to eq(expected)
   end
   # rubocop:enable RSpec/ExampleLength
+  #
+
+  it "omits tag if attribute is set to false" do
+    doc.billing_reference = false
+
+    expect(doc.to_xml).to_not include "<cac:BillingReference"
+  end
 end
