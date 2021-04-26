@@ -28,16 +28,27 @@ module Xrechnung
   class Document
     include MemberContainer
 
-    # Rechnungsnummer
+    # Invoice number BT-1
+    #
+    # Eine eindeutige Kennung der Rechnung, die diese im System des Verkäufers identifiziert.
+    # Anmerkung: Es ist kein „identification scheme“ zu verwenden.
     #
     # @!attribute id
     #   @return [String]
     member :id, type: String
 
+    # Invoice issue date BT-2
+    #
+    # Das Datum, an dem die Rechnung ausgestellt wurde.
+    #
     # @!attribute issue_date
     # @return [Date]
     member :issue_date, type: Date
 
+    # Payment due date BT-9
+    #
+    # Das Fälligkeitsdatum des Rechnungsbetrages.
+    #
     # @!attribute due_date
     # @return [Date]
     member :due_date, type: Date
