@@ -1,8 +1,38 @@
+require "xrechnung/member_container"
+require "xrechnung/postal_address"
+require "xrechnung/party_tax_scheme"
+require "xrechnung/party_legal_entity"
+require "xrechnung/contact"
+
 module Xrechnung
-  Party = Struct.new(:name, :postal_address, :party_tax_scheme, :party_legal_entity, :contact, :nested, keyword_init: true) do
-    def initialize(*args)
-      super
-      self.nested = true if self.nested.nil?
+  class Party
+    include MemberContainer
+
+    # @!attribute name
+    #   @return [String]
+    member :name, type: String
+
+    # @!attribute postal_address
+    #   @return [Xrechnung::PostalAddress]
+    member :postal_address, type: Xrechnung::PostalAddress
+
+    # @!attribute party_tax_scheme
+    #   @return [Xrechnung::PartyTaxScheme]
+    member :party_tax_scheme, type: Xrechnung::PartyTaxScheme
+
+    # @!attribute party_legal_entity
+    #   @return [Xrechnung::PartyLegalEntity]
+    member :party_legal_entity, type: Xrechnung::PartyLegalEntity
+
+    # @!attribute contact
+    #   @return [Xrechnung::Contact]
+    member :contact, type: Xrechnung::Contact
+
+    attr_accessor :nested
+
+    def initialize(nested: true, **kwargs)
+      super(**kwargs)
+      self.nested = nested
     end
 
     # noinspection RubyResolve
