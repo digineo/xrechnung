@@ -1,6 +1,27 @@
 module Xrechnung
-  Item = Struct.new(:description, :name, :standard_item_identification_id,
-    :commodity_classification, :classified_tax_category, keyword_init: true) do
+  class Item
+    include MemberContainer
+
+    # @!attribute description
+    #   @return [String]
+    member :description, type: String
+
+    # @!attribute name
+    #   @return [String]
+    member :name, type: String
+
+    # @!attribute standard_item_identification_id
+    #   @return [Xrechnung::Id]
+    member :standard_item_identification_id, type: Xrechnung::Id, optional: true
+
+    # @!attribute commodity_classification
+    #   @return [Xrechnung::TaxCategory]
+    member :commodity_classification, type: Xrechnung::TaxCategory
+
+    # @!attribute classified_tax_category
+    #   @return [Xrechnung::TaxCategory]
+    member :classified_tax_category, type: Xrechnung::TaxCategory
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :Item do
