@@ -1,10 +1,24 @@
 module Xrechnung
-  Price = Struct.new(:price_amount, :base_quantity, :allowance_charge,
-                     keyword_init: true) do
+  class Price
+    include MemberContainer
+
+    # @!attribute price_amount
+    #   @return [Xrechnung::Currency]
+    member :price_amount, type: Xrechnung::Currency
+
+    # @!attribute base_quantity
+    #   @return [Xrechnung::Quantity]
+    member :base_quantity, type: Xrechnung::Quantity
+
+    # @!attribute allowance_charge
+    #   @return [Xrechnung::AllowanceCharge]
+    member :allowance_charge, type: Xrechnung::AllowanceCharge
+
     def initialize(**kwargs)
       kwargs[:price_amount] = Currency::EUR(kwargs[:price_amount])
       super(**kwargs)
     end
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :Price do
