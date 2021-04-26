@@ -14,68 +14,19 @@ require "xrechnung/invoice_line"
 require "xrechnung/item"
 require "xrechnung/price"
 require "xrechnung/allowance_charge"
+require "xrechnung/invoice_document_reference"
 require "xrechnung/currency"
 require "xrechnung/quantity"
 require "xrechnung/id"
+require "xrechnung/member_container"
 require "builder"
 require "date"
 
 module Xrechnung
   class Error < StandardError; end
 
-  module MemberContainer
-    def self.extended(base)
-      base.instance_variable_set :@members, {}
-    end
-
-    def member(member_name, type: nil, default: nil, optional: false)
-      @members[member_name] = { optional: optional }
-
-      attr_reader member_name
-      setter_name = :"#{member_name}="
-
-      if default
-        after_initialize do
-          send(setter_name, default)
-        end
-      end
-
-      define_method setter_name do |in_value|
-        if type && !in_value.is_a?(type)
-          raise ArgumentError, "expected #{type} for :#{member_name}, got: #{in_value.class}"
-        end
-
-        instance_variable_set :"@#{member_name}", in_value
-      end
-    end
-
-    def after_initialize(&block)
-      @after_initialize_blocks ||= []
-      if block
-        @after_initialize_blocks << block
-      else
-        @after_initialize_blocks
-      end
-    end
-  end
-
-  class InvoiceDocumentReference
-    attr_accessor :id, :issue_date
-
-    def to_xml(xml)
-      xml.cac :InvoiceDocumentReference do
-        xml.cbc :ID, id
-        xml.cbc :IssueDate, issue_date
-      end
-    end
-  end
-
   class Document
-    extend MemberContainer
-
-    def members
-      self.class.instance_variable_get :@members
-    end
+    include MemberContainer
 
     # Rechnungsnummer
     #
@@ -97,11 +48,11 @@ module Xrechnung
 
     # @!attribute document_currency_code
     # @return [String]
-    member :document_currency_code, type: String
+    member :document_currency_code, type: String, default: "EUR"
 
     # @!attribute notes
     # @return [Array]
-    member :notes, type: Array
+    member :notes, type: Array, default: []
 
     # @!attribute order_reference_id
     # @return [String]
@@ -121,7 +72,7 @@ module Xrechnung
 
     # @!attribute tax_currency_code
     # @return [String]
-    member :tax_currency_code, type: String
+    member :tax_currency_code, type: String, default: "EUR"
 
     # @!attribute buyer_reference
     # @return [String]
@@ -161,18 +112,7 @@ module Xrechnung
 
     # @!attribute invoice_lines
     # @return [Array]
-    member :invoice_lines, type: Array
-
-    def initialize(**_kwargs)
-      self.document_currency_code = "EUR"
-      self.tax_currency_code      = "EUR"
-      self.notes                  = []
-      self.invoice_lines          = []
-
-      self.class.after_initialize.each do |block|
-        instance_eval &block
-      end
-    end
+    member :invoice_lines, type: Array, default: []
 
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
