@@ -54,11 +54,18 @@ RSpec.describe Xrechnung do
     )
 
     doc.tax_representative_party = Xrechnung::Party.new(
-      name:             "",
-      postal_address:   Xrechnung::PostalAddress.new,
-      party_tax_scheme: Xrechnung::PartyTaxScheme.new(
-        tax_scheme_id: "VAT",
+      name:             "Donald Duck",
+      postal_address:   Xrechnung::PostalAddress.new(
+        street_name:            "Malerweg 2",
+        additional_street_name: "Hinterhof A",
+        city_name:              "Großstadt",
+        postal_zone:            "01091",
+        country_subentity:      "Sachsen",
+        country_id:             "DE",
       ),
+      party_tax_scheme: Xrechnung::PartyTaxScheme.new(
+      tax_scheme_id: "VAT",
+    ),
       nested:           false,
     )
 

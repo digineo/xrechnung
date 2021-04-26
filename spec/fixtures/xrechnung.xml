@@ -79,11 +79,16 @@
   </cac:AccountingCustomerParty>
   <cac:TaxRepresentativeParty>
     <cac:PartyName>
-      <cbc:Name/>
+      <cbc:Name>Donald Duck</cbc:Name>
     </cac:PartyName>
     <cac:PostalAddress>
+      <cbc:StreetName>Malerweg 2</cbc:StreetName>
+      <cbc:AdditionalStreetName>Hinterhof A</cbc:AdditionalStreetName>
+      <cbc:CityName>Großstadt</cbc:CityName>
+      <cbc:PostalZone>01091</cbc:PostalZone>
+      <cbc:CountrySubentity>Sachsen</cbc:CountrySubentity>
       <cac:Country>
-        <cbc:IdentificationCode/>
+        <cbc:IdentificationCode>DE</cbc:IdentificationCode>
       </cac:Country>
     </cac:PostalAddress>
     <cac:PartyTaxScheme>
