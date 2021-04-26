@@ -1,9 +1,3 @@
-require "xrechnung/member_container"
-require "xrechnung/postal_address"
-require "xrechnung/party_tax_scheme"
-require "xrechnung/party_legal_entity"
-require "xrechnung/contact"
-
 module Xrechnung
   class Party
     include MemberContainer

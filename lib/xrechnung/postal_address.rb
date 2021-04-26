@@ -1,6 +1,31 @@
 module Xrechnung
-  PostalAddress = Struct.new(:street_name, :additional_street_name, :city_name,
-    :postal_zone, :country_subentity, :country_id, keyword_init: true) do
+  class PostalAddress
+    include MemberContainer
+
+    # @!attribute street_name
+    #   @return [String]
+    member :street_name, type: String
+
+    # @!attribute additional_street_name
+    #   @return [String]
+    member :additional_street_name, type: String
+
+    # @!attribute city_name
+    #   @return [String]
+    member :city_name, type: String
+
+    # @!attribute postal_zone
+    #   @return [String]
+    member :postal_zone, type: String
+
+    # @!attribute country_subentity
+    #   @return [String]
+    member :country_subentity, type: String
+
+    # @!attribute country_id
+    #   @return [String]
+    member :country_id, type: String
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :PostalAddress do
