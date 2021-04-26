@@ -5,7 +5,21 @@ module Xrechnung
   #       <cbc:ID>VAT</cbc:ID>
   #     </cac:TaxScheme>
   #
-  TaxCategory = Struct.new(:id, :percent, :tax_scheme_id, keyword_init: true) do
+  class TaxCategory
+    include MemberContainer
+
+    # @!attribute id
+    #   @return [String]
+    member :id, type: String
+
+    # @!attribute percent
+    #   @return [Integer]
+    member :percent, type: Integer
+
+    # @!attribute tax_scheme_id
+    #   @return [String]
+    member :tax_scheme_id, type: String
+
     # noinspection RubyResolve
     def to_xml(xml, root_tag_name: :TaxCategory)
       xml.cac root_tag_name do
