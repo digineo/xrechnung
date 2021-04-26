@@ -83,8 +83,8 @@ module Xrechnung
     member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
 
     # @!attribute contract_document_reference_id
-    # @return [Integer]
-    member :contract_document_reference_id, type: Integer
+    # @return [String]
+    member :contract_document_reference_id, type: String
 
     # @!attribute project_reference_id
     # @return [String]

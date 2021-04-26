@@ -27,8 +27,10 @@ module Xrechnung
       xml.cac :Item do
         xml.cbc :Description, description
         xml.cbc :Name, name
-        xml.cac :StandardItemIdentification do
-          xml.cbc :ID, standard_item_identification_id.id, schemeID: standard_item_identification_id.scheme_id
+        unless standard_item_identification_id.nil?
+          xml.cac :StandardItemIdentification do
+            xml.cbc :ID, standard_item_identification_id.id, schemeID: standard_item_identification_id.scheme_id
+          end
         end
         xml.cac :CommodityClassification, commodity_classification
         classified_tax_category&.to_xml(xml, root_tag_name: :ClassifiedTaxCategory)

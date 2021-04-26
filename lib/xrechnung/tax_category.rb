@@ -13,8 +13,8 @@ module Xrechnung
     member :id, type: String
 
     # @!attribute percent
-    #   @return [Integer]
-    member :percent, type: Integer
+    #   @return [BigDecimal]
+    member :percent, type: BigDecimal, transform_value: ->(v) { BigDecimal(v, 0) }
 
     # @!attribute tax_scheme_id
     #   @return [String]

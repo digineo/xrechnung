@@ -29,7 +29,7 @@ RSpec.describe Xrechnung do
     doc.billing_reference.id         = "Vorangegangene Rechnung 23423"
     doc.billing_reference.issue_date = Date.new(2020, 4, 23)
 
-    doc.contract_document_reference_id = 23_871_349
+    doc.contract_document_reference_id = "23871349"
     doc.project_reference_id           = "Bauvorhaben Glücksstraße 4"
 
     doc.accounting_supplier_party = build_party
