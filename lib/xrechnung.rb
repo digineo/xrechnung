@@ -92,7 +92,7 @@ module Xrechnung
 
     # @!attribute tax_representative_party
     # @return [Xrechnung::Party]
-    member :tax_representative_party, type: Xrechnung::Party
+    member :tax_representative_party, type: Xrechnung::Party, optional: true
 
     # @!attribute payment_means
     # @return [Xrechnung::PaymentMeans]
@@ -165,8 +165,10 @@ module Xrechnung
           customer&.to_xml(xml)
         end
 
-        xml.cac :TaxRepresentativeParty do
-          tax_representative_party&.to_xml(xml)
+        unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
+          xml.cac :TaxRepresentativeParty do
+            tax_representative_party&.to_xml(xml)
+          end
         end
 
         xml.cac :PaymentMeans do

@@ -64,8 +64,8 @@ RSpec.describe Xrechnung do
         country_id:             "DE",
       ),
       party_tax_scheme: Xrechnung::PartyTaxScheme.new(
-      tax_scheme_id: "VAT",
-    ),
+        tax_scheme_id: "VAT",
+      ),
       nested:           false,
     )
 
@@ -117,6 +117,12 @@ RSpec.describe Xrechnung do
 
   it "omits tag if attribute is set to optional" do
     expect(doc.to_xml).not_to include "<cac:BillingReference"
+  end
+
+  it "omits tax_representative_party" do
+    doc.tax_representative_party = nil
+
+    expect(doc.to_xml).not_to include "<cac:TaxRepresentativeParty"
   end
 
   it "sets defaults" do

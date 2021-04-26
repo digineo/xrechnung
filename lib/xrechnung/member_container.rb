@@ -24,6 +24,11 @@ module Xrechnung
     end
 
     module ClassMethods
+      # @param [String] member_name
+      # @param [Class] type
+      # @param [Object] default
+      # @param [Boolean] optional When true, omits tag rather than rendering an empty tag on nil
+      # @param [Proc] transform_value
       def member(member_name, type: nil, default: nil, optional: false, transform_value: nil)
         attr_reader member_name
         setter_name           = :"#{member_name}="
@@ -38,7 +43,7 @@ module Xrechnung
         define_method setter_name do |in_value|
           in_value = transform_value.call(in_value) if transform_value
 
-          if type && !in_value.is_a?(type)
+          if type && !in_value.nil? && !in_value.is_a?(type)
             raise ArgumentError, "expected #{type} for :#{member_name}, got: #{in_value.class}"
           end
 
