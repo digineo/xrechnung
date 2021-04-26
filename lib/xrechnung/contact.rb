@@ -1,5 +1,19 @@
 module Xrechnung
-  Contact = Struct.new(:name, :telephone, :electronic_mail, keyword_init: true) do
+  class Contact
+    include MemberContainer
+
+    # @!attribute name
+    #   @return [String]
+    member :name, type: String
+
+    # @!attribute telephone
+    #   @return [String]
+    member :telephone, type: String
+
+    # @!attribute electronic_mail
+    #   @return [String]
+    member :electronic_mail, type: String
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :Contact do
