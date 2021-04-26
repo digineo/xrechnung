@@ -5,13 +5,13 @@ module Xrechnung
       base.extend ClassMethods
     end
 
-    def initialize(**_kwargs)
+    def initialize(**kwargs)
       self.class.after_initialize.each do |block|
         instance_eval(&block)
       end
 
-      _kwargs.each do |k, v|
-        send(members[k].fetch(:setter_name), v)
+      kwargs.each do |k, v|
+        self[k] = v
       end
     end
 
@@ -21,6 +21,10 @@ module Xrechnung
 
     def [](key)
       send(key)
+    end
+
+    def []=(key, value)
+      send(members[key].fetch(:setter_name), value)
     end
 
     module ClassMethods
