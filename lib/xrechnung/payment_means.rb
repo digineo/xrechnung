@@ -9,7 +9,17 @@ module Xrechnung
   #     </cac:FinancialInstitutionBranch>
   #   </cac:PayeeFinancialAccount>
   # </cac:PaymentMeans>
-  PaymentMeans = Struct.new(:payment_means_code, :payee_financial_account, keyword_init: true) do
+  class PaymentMeans
+    include MemberContainer
+
+    # @!attribute payment_means_code
+    #   @return [Integer]
+    member :payment_means_code, type: Integer
+
+    # @!attribute payee_financial_account
+    #   @return [Xrechnung::PayeeFinancialAccount]
+    member :payee_financial_account, type: Xrechnung::PayeeFinancialAccount
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cbc :PaymentMeansCode, payment_means_code

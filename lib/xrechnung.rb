@@ -5,8 +5,8 @@ require "xrechnung/party_legal_entity"
 require "xrechnung/party_tax_scheme"
 require "xrechnung/postal_address"
 require "xrechnung/party"
-require "xrechnung/payment_means"
 require "xrechnung/payee_financial_account"
+require "xrechnung/payment_means"
 require "xrechnung/tax_total"
 require "xrechnung/tax_subtotal"
 require "xrechnung/tax_category"
@@ -119,11 +119,11 @@ module Xrechnung
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
       xml.ubl :Invoice, \
-        "xmlns:ubl"                => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-              "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-              "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-              "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
-              "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
+        "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+        "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+        "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+        "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
+        "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
         xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
@@ -193,5 +193,4 @@ module Xrechnung
       target
     end
   end
-
 end
