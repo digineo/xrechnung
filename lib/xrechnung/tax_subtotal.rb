@@ -12,7 +12,21 @@ module Xrechnung
   # </cac:TaxSubtotal>
   #
   #
-  TaxSubtotal = Struct.new(:taxable_amount, :tax_amount, :tax_category, keyword_init: true) do
+  class TaxSubtotal
+    include MemberContainer
+
+    # @!attribute taxable_amount
+    #   @return [Xrechnung::Currency]
+    member :taxable_amount, type: Xrechnung::Currency
+
+    # @!attribute tax_amount
+    #   @return [Xrechnung::Currency]
+    member :tax_amount, type: Xrechnung::Currency
+
+    # @!attribute tax_category
+    #   @return [Xrechnung::TaxCategory]
+    member :tax_category, type: Xrechnung::TaxCategory
+
     # @!attribute taxable_amount
     #   @return [Xrechnung::Currency]
 
