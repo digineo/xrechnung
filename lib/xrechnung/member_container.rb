@@ -19,8 +19,12 @@ module Xrechnung
       self.class.instance_variable_get :@members
     end
 
+    def [](key)
+      send(key)
+    end
+
     module ClassMethods
-      def member(member_name, type: nil, default: nil, optional: false)
+      def member(member_name, type: nil, default: nil, optional: false, transform_value: nil)
         attr_reader member_name
         setter_name           = :"#{member_name}="
         @members[member_name] = { optional: optional, setter_name: setter_name }
@@ -32,6 +36,8 @@ module Xrechnung
         end
 
         define_method setter_name do |in_value|
+          in_value = transform_value.call(in_value) if transform_value
+
           if type && !in_value.is_a?(type)
             raise ArgumentError, "expected #{type} for :#{member_name}, got: #{in_value.class}"
           end
