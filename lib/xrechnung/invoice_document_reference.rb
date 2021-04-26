@@ -1,6 +1,14 @@
 module Xrechnung
   class InvoiceDocumentReference
-    attr_accessor :id, :issue_date
+    include MemberContainer
+
+    # @!attribute id
+    #   @return [String]
+    member :id, type: String
+
+    # @!attribute issue_date
+    #   @return [Date]
+    member :issue_date, type: Date
 
     def to_xml(xml)
       xml.cac :InvoiceDocumentReference do
