@@ -1,5 +1,15 @@
 module Xrechnung
-  PartyTaxScheme = Struct.new(:company_id, :tax_scheme_id, keyword_init: true) do
+  class PartyTaxScheme
+    include MemberContainer
+
+    # @!attribute company_id
+    #   @return [String]
+    member :company_id, type: String
+
+    # @!attribute tax_scheme_id
+    #   @return [String]
+    member :tax_scheme_id, type: String
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :PartyTaxScheme do
