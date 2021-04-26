@@ -1,8 +1,21 @@
 module Xrechnung
-  AllowanceCharge = Struct.new(:charge_indicator, :amount, :base_amount,
-    keyword_init: true) do
+  class AllowanceCharge
+    include MemberContainer
+
+    # @!attribute charge_indicator
+    #   @return [TrueClass, FalseClass]
+    member :charge_indicator, type: [TrueClass, FalseClass]
+
+    # @!attribute amount
+    #   @return [Xrechnung::Currency]
+    member :amount, type: Xrechnung::Currency
+
+    # @!attribute base_amount
+    #   @return [Xrechnung::Currency]
+    member :base_amount, type: Xrechnung::Currency
+
     def initialize(**kwargs)
-      kwargs[:amount] = Currency::EUR(kwargs[:amount])
+      kwargs[:amount]      = Currency::EUR(kwargs[:amount])
       kwargs[:base_amount] = Currency::EUR(kwargs[:base_amount])
       super(**kwargs)
     end

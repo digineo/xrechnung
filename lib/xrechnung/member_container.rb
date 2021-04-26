@@ -25,10 +25,10 @@ module Xrechnung
 
     module ClassMethods
       # @param [String] member_name
-      # @param [Class] type
+      # @param [Array<Class>, Class] type
       # @param [Object] default
-      # @param [Boolean] optional When true, omits tag rather than rendering an empty tag on nil
-      # @param [Proc] transform_value
+      # @param [TrueClass, FalseClass] optional When true, omits tag rather than rendering an empty tag on nil
+      # @param [Proc] transform_value A Proc which is called with the input value to perform type conversion.
       def member(member_name, type: nil, default: nil, optional: false, transform_value: nil)
         attr_reader member_name
         setter_name           = :"#{member_name}="
@@ -43,7 +43,7 @@ module Xrechnung
         define_method setter_name do |in_value|
           in_value = transform_value.call(in_value) if transform_value
 
-          if type && !in_value.nil? && !in_value.is_a?(type)
+          if type && !in_value.nil? && Array(type).none? { |t| in_value.is_a?(t) }
             raise ArgumentError, "expected #{type} for :#{member_name}, got: #{in_value.class}"
           end
 
