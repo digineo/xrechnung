@@ -6,7 +6,21 @@ module Xrechnung
   #       <cbc:ID>XUFUXHB</cbc:ID>
   #     </cac:FinancialInstitutionBranch>
   #   </cac:PayeeFinancialAccount>
-  PayeeFinancialAccount = Struct.new(:id, :name, :financial_institution_branch_id, keyword_init: true) do
+  class PayeeFinancialAccount
+    include MemberContainer
+
+    # @!attribute id
+    #   @return [String]
+    member :id, type: String
+
+    # @!attribute name
+    #   @return [String]
+    member :name, type: String
+
+    # @!attribute financial_institution_branch_id
+    #   @return [String]
+    member :financial_institution_branch_id, type: String
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :PayeeFinancialAccount do
