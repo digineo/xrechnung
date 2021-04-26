@@ -6,12 +6,12 @@ module Xrechnung
     end
 
     def initialize(**_kwargs)
-      _kwargs.each do |k, v|
-        send(members[k].fetch(:setter_name), v)
-      end
-
       self.class.after_initialize.each do |block|
         instance_eval(&block)
+      end
+
+      _kwargs.each do |k, v|
+        send(members[k].fetch(:setter_name), v)
       end
     end
 
@@ -21,9 +21,8 @@ module Xrechnung
 
     module ClassMethods
       def member(member_name, type: nil, default: nil, optional: false)
-
         attr_reader member_name
-        setter_name = :"#{member_name}="
+        setter_name           = :"#{member_name}="
         @members[member_name] = { optional: optional, setter_name: setter_name }
 
         if default

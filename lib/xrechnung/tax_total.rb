@@ -23,13 +23,16 @@ module Xrechnung
   #   </cac:TaxCategory>
   # </cac:TaxSubtotal>
   #
-  # @!attribute tax_amount
-  #   @return [Xrechnung::Currency] tax_amount
-  TaxTotal = Struct.new(:tax_amount, :tax_subtotals, keyword_init: true) do
-    def initialize(*args)
-      super
-      self.tax_subtotals ||= []
-    end
+  class TaxTotal
+    include MemberContainer
+
+    # @!attribute tax_amount
+    #   @return [Xrechnung::Currency]
+    member :tax_amount, type: Xrechnung::Currency
+
+    # @!attribute tax_subtotals
+    #   @return [Array]
+    member :tax_subtotals, type: Array, default: []
 
     # noinspection RubyResolve
     def to_xml(xml)
