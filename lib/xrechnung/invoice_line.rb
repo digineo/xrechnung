@@ -1,6 +1,27 @@
 module Xrechnung
-  InvoiceLine = Struct.new(:id, :invoiced_quantity, :line_extension_amount,
-    :item, :price, keyword_init: true) do
+  class InvoiceLine
+    include MemberContainer
+
+    # @!attribute id
+    #   @return [Integer]
+    member :id, type: Integer
+
+    # @!attribute invoiced_quantity
+    #   @return [Xrechnung::Quantity]
+    member :invoiced_quantity, type: Xrechnung::Quantity
+
+    # @!attribute line_extension_amount
+    #   @return [Xrechnung::Currency]
+    member :line_extension_amount, type: Xrechnung::Currency
+
+    # @!attribute item
+    #   @return [Xrechnung::Item]
+    member :item, type: Xrechnung::Item
+
+    # @!attribute price
+    #   @return [Xrechnung::Price]
+    member :price, type: Xrechnung::Price
+
     def initialize(**kwargs)
       kwargs[:line_extension_amount] = Currency::EUR(kwargs[:line_extension_amount])
       super(**kwargs)
