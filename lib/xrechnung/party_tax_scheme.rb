@@ -8,7 +8,7 @@ module Xrechnung
 
     # @!attribute tax_scheme_id
     #   @return [String]
-    member :tax_scheme_id, type: String
+    member :tax_scheme_id, type: String, default: "VAT"
 
     # noinspection RubyResolve
     def to_xml(xml)

@@ -16,14 +16,14 @@ RSpec.describe Xrechnung do
 
   # rubocop:disable RSpec/ExampleLength
   it "generates XML" do
-    doc.id                 = "0815-99-1-a"
-    doc.issue_date         = Date.parse("2020-08-21")
-    doc.due_date           = Date.parse("2020-08-31")
-    doc.notes              = ["#AAI#Rechnungsbetreff: Informationen zur Rechnung 1",
-                              "#AAI#Informationen zur Rechnung 2"]
-    doc.tax_point_date     = Date.new(2021, 4, 20)
-    doc.buyer_reference    = "9900 0000 - 1234 56 - 23"
-    doc.order_reference_id = "0815-99-1"
+    doc.id                       = "0815-99-1-a"
+    doc.issue_date               = Date.parse("2020-08-21")
+    doc.due_date                 = Date.parse("2020-08-31")
+    doc.notes                    = ["#AAI#Rechnungsbetreff: Informationen zur Rechnung 1",
+                                    "#AAI#Informationen zur Rechnung 2"]
+    doc.tax_point_date           = Date.new(2021, 4, 20)
+    doc.buyer_reference          = "9900 0000 - 1234 56 - 23"
+    doc.purchase_order_reference = "0815-99-1"
 
     doc.billing_reference            = Xrechnung::InvoiceDocumentReference.new
     doc.billing_reference.id         = "Vorangegangene Rechnung 23423"
@@ -34,7 +34,7 @@ RSpec.describe Xrechnung do
 
     doc.accounting_supplier_party = build_party
 
-    doc.customer = Xrechnung::Party.new(
+    doc.accounting_customer_party = Xrechnung::Party.new(
       postal_address:     Xrechnung::PostalAddress.new(
         street_name:            "Malerweg 2",
         additional_street_name: "Hinterhof A",

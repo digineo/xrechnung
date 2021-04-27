@@ -8,6 +8,15 @@ module Xrechnung
   class TaxCategory
     include MemberContainer
 
+    # • S (Standard rate)
+    # • Z (Zero rated goods)
+    # • E (Exempt from tax)
+    # • AE (VAT Reverse Charge)
+    # • K (VAT exempt for EEA intra-community supply of goods and services)
+    # • G (Free export item, tax not charged)
+    # • O (Services outside scope of tax)
+    # • L (Canary Islands general indirect tax)
+    # • M (Tax for production, services and importation in Ceuta and Melilla)
     # @!attribute id
     #   @return [String]
     member :id, type: String
@@ -18,7 +27,7 @@ module Xrechnung
 
     # @!attribute tax_scheme_id
     #   @return [String]
-    member :tax_scheme_id, type: String
+    member :tax_scheme_id, type: String, default: "VAT"
 
     # noinspection RubyResolve
     def to_xml(xml, root_tag_name: :TaxCategory)

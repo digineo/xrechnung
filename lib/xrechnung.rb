@@ -42,7 +42,7 @@ module Xrechnung
     # Das Datum, an dem die Rechnung ausgestellt wurde.
     #
     # @!attribute issue_date
-    # @return [Date]
+    #   @return [Date]
     member :issue_date, type: Date
 
     # Payment due date BT-9
@@ -50,79 +50,193 @@ module Xrechnung
     # Das Fälligkeitsdatum des Rechnungsbetrages.
     #
     # @!attribute due_date
-    # @return [Date]
+    #   @return [Date]
     member :due_date, type: Date
 
+    # Invoice type code BT-3
+    # Ein Code, der den Funktionstyp der Rechnung angibt.
+    #
+    # Anmerkung: Der Rechnungstyp muss gemäß UNTDID 1001 spezifiziert werden.
+    # Folgende Codes aus der Codeliste sollen verwendet werden:
+    # • 326 (Partial invoice)
+    # • 380 (Commercial invoice)
+    # • 384 (Corrected invoice)
+    # • 389 (Self-billed invoice)
+    # • 381 (Credit note)
+    # • 875 (Partial construction invoice)
+    # • 876 (Partial final construction invoice)
+    # • 877 (Final construction invoice)
+    #
     # @!attribute invoice_type_code
-    # @return [Integer]
+    #   @return [Integer]
     member :invoice_type_code, type: Integer, default: 380
 
+    # Invoice currency code BT-5
+    #
+    # Die Währung, in der alle Rechnungsbeträge angegeben werden, ausgenommen ist der Umsatzsteuer-
+    # Gesamtbetrag, der in der Abrechnungswährung anzugeben ist.
+    # Anmerkung: Nur eine Währung ist in der Rechnung zu verwenden, der „Invoice total VAT amount in accounting
+    # currency“ (BT-111) ist in der Abrechnungswährung auszuweisen. Die gültigen Währungen sind bei der ISO 4217
+    # „Codes for the representation of currencies and funds“ registriert. Nur die Alpha-3-Darstellung darf verwendet
+    # werden.
+    #
     # @!attribute document_currency_code
-    # @return [String]
+    #   @return [String]
     member :document_currency_code, type: String, default: "EUR"
 
+    # INVOICE NOTE BG-1
+    #
+    # Eine Gruppe von Informationselementen für rechnungsrelevante Erläuterungen
+    # mit Hinweisen auf den Rechnungsbetreff.
+    #
     # @!attribute notes
-    # @return [Array]
+    #   @return [Array]
     member :notes, type: Array, default: []
 
-    # @!attribute order_reference_id
-    # @return [String]
-    member :order_reference_id, type: String
+    # Purchase order reference BT-13
+    #
+    # Eine vom Erwerber ausgegebene Kennung für eine referenzierte Bestellung.
+    #
+    # @!attribute purchase_order_reference
+    #   @return [String]
+    member :purchase_order_reference, type: String
 
+    # Sales order reference BT-14
+    #
+    # Eine vom Verkäufer ausgegebene Kennung für einen referenzierten Auftrag.
+    #
+    # @!attribute sales_order_reference
+    #   @return [String]
+    member :sales_order_reference, type: String, optional: true
+
+    # Gruppe SELLER BG-4
+    #
+    # Eine Gruppe von Informationselementen, die Informationen über den Verkäufer liefern.
+    #
     # @!attribute accounting_supplier_party
-    # @return [Xrechnung::Party]
+    #   @return [Xrechnung::Party]
     member :accounting_supplier_party, type: Xrechnung::Party
 
-    # @!attribute customer
-    # @return [Xrechnung::Party]
-    member :customer, type: Xrechnung::Party
+    # BUYER BG-7
+    #
+    # Eine Gruppe von Informationselementen, die Informationen über den Erwerber liefern.
+    #
+    # @!attribute accounting_customer_party
+    #   @return [Xrechnung::Party]
+    member :accounting_customer_party, type: Xrechnung::Party
 
+    # Value added tax point date BT-7
+    #
+    # Das Datum, zu dem die Umsatzsteuer für den Verkäufer und für den Erwerber abrechnungsrelevant wird.
+    # Die Anwendung von BT-7 und 8 schließen sich gegenseitig aus.
+    #
     # @!attribute tax_point_date
-    # @return [Date]
+    #   @return [Date]
     member :tax_point_date, type: Date
 
+    # VAT accounting currency code BT-6
+    #
+    # Die für die Umsatzsteuer-Abrechnungs- und -Meldezwecke verwendete Währung, die im Land des Verkäufers gültig
+    # ist oder verlangt wird.
+    # Anmerkung: Zu Verwenden in Kombination mit „Invoice total VAT amount in accounting currency“ (BT-111), wenn
+    # die Umsatzsteuerabrechnungswährung von der Rechnungswährung abweicht. Die gültigen Währungen sind bei
+    # der ISO 4217 „Codes for the representation of currencies and funds“ registriert. Nur die Alpha-3-Darstellung darf
+    # verwendet werden.
+    #
     # @!attribute tax_currency_code
-    # @return [String]
+    #   @return [String]
     member :tax_currency_code, type: String, default: "EUR"
 
+    # Buyer reference BT-10
+    #
+    # Ein vom Erwerber zugewiesener und für interne Lenkungszwecke benutzter Bezeichner.
+    # Anmerkung: Im Rahmen des Steuerungsprojekts eRechnung ist mit der so genannten Leitweg-ID eine
+    # Zuordnungsmöglichkeit entwickelt worden, deren verbindliche Nutzung von Bund und mehreren Ländern
+    # vorgegeben wird. Die Leitweg-ID ist prinzipiell für Bund, Länder und Kommunen einsetzbar. Für die Darstellung der
+    # Leitweg-ID wird das in XRechnung verpflichtende Feld Buyer Reference benutzt.
+    # Länder und Kommunen, die ihren Rechnungsstellern abweichend von der Leitweg-ID eigene Zuordnungsmuster
+    # mitteilen, können diese statt der Leitweg-ID im Feld Buyer Reference verwenden.
+    # Hinweis: Es existiert eine Handreichung zur Bildung der Leitweg-ID, die über die KoSIT zu erhalten ist (siehe Website
+    # XRechnung bzw. FAQ-Liste).
+    #
     # @!attribute buyer_reference
-    # @return [String]
+    #   @return [String]
     member :buyer_reference, type: String
 
     # @!attribute billing_reference
-    # @return [Xrechnung::InvoiceDocumentReference]
+    #   @return [Xrechnung::InvoiceDocumentReference]
     member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
 
+    # Contract reference BT-12
+    #
+    # Eine eindeutige Bezeichnung des Vertrages (z. B. Vertragsnummer).
+    #
     # @!attribute contract_document_reference_id
-    # @return [String]
+    #   @return [String]
     member :contract_document_reference_id, type: String
 
+    # Project reference BT-11
+    #
+    # Die Kennung eines Projektes, auf das sich die Rechnung bezieht.
+    #
     # @!attribute project_reference_id
-    # @return [String]
+    #   @return [String]
     member :project_reference_id, type: String
 
+    # SELLER TAX REPRESENTATIVE PARTY BG-11
+    #
+    # Eine Gruppe von Informationselementen, die Informationen über den
+    # Steuervertreter des Verkäufers liefern.
+    #
     # @!attribute tax_representative_party
-    # @return [Xrechnung::Party]
+    #   @return [Xrechnung::Party]
     member :tax_representative_party, type: Xrechnung::Party, optional: true
 
+    # PAYMENT INSTRUCTIONS BG-16
+    #
+    # Eine Gruppe von Informationselementen, die Informationen darüber liefern, wie die Zahlung
+    # erfolgen soll.
+    #
     # @!attribute payment_means
-    # @return [Xrechnung::PaymentMeans]
+    #   @return [Xrechnung::PaymentMeans]
     member :payment_means, type: Xrechnung::PaymentMeans
 
+    # Payment terms BT-20
+    #
+    # Eine Textbeschreibung der Zahlungsbedingungen, die für den fälligen Zahlungsbetrag gelten (einschließlich
+    # Beschreibung möglicher Skonto- und Verzugsbedingungen). Dieses Informationselement kann mehrere Zeilen und
+    # mehrere Angaben zu Zahlungsbedingungen beinhalten und sowohl unstrukturierten als strukturierten Text enthalten.
+    # Der unstrukturierte Text darf dabei keine # enthalten.
+    #
     # @!attribute payment_terms_note
-    # @return [String]
+    #   @return [String]
     member :payment_terms_note, type: String
 
+    # VAT BREAKDOWN BG-23
+    #
+    # Eine Gruppe von Informationselementen, die Informationen über die
+    # Umsatzsteueraufschlüsselung in verschiedene Kategorien liefern.
+    #
     # @!attribute tax_total
-    # @return [Xrechnung::TaxTotal]
+    #   @return [Xrechnung::TaxTotal]
     member :tax_total, type: Xrechnung::TaxTotal
 
+    # DOCUMENT TOTALS BG-22
+    #
+    # Eine Gruppe von Informationselementen, die die monetären Gesamtbeträge der Rechnung
+    # liefern.
+    #
     # @!attribute legal_monetary_total
-    # @return [Xrechnung::LegalMonetaryTotal]
+    #   @return [Xrechnung::LegalMonetaryTotal]
     member :legal_monetary_total, type: Xrechnung::LegalMonetaryTotal
 
+    # INVOICE LINE BG-25
+    #
+    # Eine Gruppe von Informationselementen, die Informationen über einzelne
+    # Rechnungspositionen liefern.
+    #
     # @!attribute invoice_lines
-    # @return [Array]
+    #   @return [Array]
     member :invoice_lines, type: Array, default: []
 
     def to_xml(indent: 2, target: "")
@@ -151,7 +265,10 @@ module Xrechnung
         xml.cbc :BuyerReference, buyer_reference
 
         xml.cac :OrderReference do
-          xml.cbc :ID, order_reference_id
+          xml.cbc :ID, purchase_order_reference
+          unless members[:sales_order_reference][:optional] && sales_order_reference.nil?
+            xml.cbc :SalesOrderID, sales_order_reference
+          end
         end
 
         unless members[:billing_reference][:optional] && billing_reference.nil?
@@ -173,7 +290,7 @@ module Xrechnung
         end
 
         xml.cac :AccountingCustomerParty do
-          customer&.to_xml(xml)
+          accounting_customer_party&.to_xml(xml)
         end
 
         unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
