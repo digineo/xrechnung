@@ -30,7 +30,7 @@ module Xrechnung
     # @!attribute taxable_amount
     #   @return [Xrechnung::Currency]
 
-    def initialize(*args)
+    def initialize(**kwargs)
       super
       self.taxable_amount ||= Currency::EUR(0)
     end
