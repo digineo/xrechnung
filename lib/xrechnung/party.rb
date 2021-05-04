@@ -56,8 +56,8 @@ module Xrechnung
           end
         end
       end
-      postal_address&.to_xml(xml)
       party_identification&.to_xml(xml)
+      postal_address&.to_xml(xml)
       party_tax_scheme&.to_xml(xml)
       party_legal_entity&.to_xml(xml)
       contact&.to_xml(xml)

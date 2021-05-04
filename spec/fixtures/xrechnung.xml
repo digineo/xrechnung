@@ -57,6 +57,9 @@
   </cac:AccountingSupplierParty>
   <cac:AccountingCustomerParty>
     <cac:Party>
+      <cac:PartyIdentification>
+        <cbc:ID>70012</cbc:ID>
+      </cac:PartyIdentification>
       <cac:PostalAddress>
         <cbc:StreetName>Malerweg 2</cbc:StreetName>
         <cbc:AdditionalStreetName>Hinterhof A</cbc:AdditionalStreetName>
@@ -67,9 +70,6 @@
           <cbc:IdentificationCode>DE</cbc:IdentificationCode>
         </cac:Country>
       </cac:PostalAddress>
-      <cac:PartyIdentification>
-        <cbc:ID>70012</cbc:ID>
-      </cac:PartyIdentification>
       <cac:PartyLegalEntity>
         <cbc:RegistrationName>Bauamt GmbH &amp; Co KG</cbc:RegistrationName>
       </cac:PartyLegalEntity>
