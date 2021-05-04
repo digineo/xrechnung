@@ -43,6 +43,9 @@ RSpec.describe Xrechnung do
         country_subentity:      "Sachsen",
         country_id:             "DE",
       ),
+      party_identification: Xrechnung::PartyIdentification.new(
+        id: "70012",
+      ),
       party_legal_entity: Xrechnung::PartyLegalEntity.new(
         registration_name: "Bauamt GmbH & Co KG",
       ),

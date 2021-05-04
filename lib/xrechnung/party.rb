@@ -10,6 +10,10 @@ module Xrechnung
     #   @return [Xrechnung::PostalAddress]
     member :postal_address, type: Xrechnung::PostalAddress
 
+    # @!attribute party_identification
+    #   @return [Xrechnung::PartyIdentification]
+    member :party_identification, type: Xrechnung::PartyIdentification
+
     # @!attribute party_tax_scheme
     #   @return [Xrechnung::PartyTaxScheme]
     member :party_tax_scheme, type: Xrechnung::PartyTaxScheme
@@ -53,6 +57,7 @@ module Xrechnung
         end
       end
       postal_address&.to_xml(xml)
+      party_identification&.to_xml(xml)
       party_tax_scheme&.to_xml(xml)
       party_legal_entity&.to_xml(xml)
       contact&.to_xml(xml)
