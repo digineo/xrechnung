@@ -250,7 +250,7 @@ module Xrechnung
         "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
         "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
         "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
-        xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.0"
+        xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.2"
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
         xml.cbc :DueDate, due_date
@@ -260,9 +260,9 @@ module Xrechnung
           xml.cbc :Note, note
         end
 
-        xml.cbc :TaxPointDate, tax_point_date
+        xml.cbc :TaxPointDate, tax_point_date if tax_point_date
         xml.cbc :DocumentCurrencyCode, document_currency_code
-        xml.cbc :TaxCurrencyCode, tax_currency_code
+        xml.cbc :TaxCurrencyCode, tax_currency_code if tax_currency_code
         xml.cbc :BuyerReference, buyer_reference
 
         xml.cac :OrderReference do
@@ -278,12 +278,16 @@ module Xrechnung
           end
         end
 
-        xml.cac :ContractDocumentReference do
-          xml.cbc :ID, contract_document_reference_id
+        unless contract_document_reference_id.nil?
+          xml.cac :ContractDocumentReference do
+            xml.cbc :ID, contract_document_reference_id
+          end
         end
 
-        xml.cac :ProjectReference do
-          xml.cbc :ID, project_reference_id
+        unless project_reference_id.nil?
+          xml.cac :ProjectReference do
+            xml.cbc :ID, project_reference_id
+          end
         end
 
         xml.cac :AccountingSupplierParty do
@@ -300,20 +304,28 @@ module Xrechnung
           end
         end
 
-        xml.cac :PaymentMeans do
-          payment_means&.to_xml(xml)
+        unless payment_means.nil?
+          xml.cac :PaymentMeans do
+            payment_means&.to_xml(xml)
+          end
         end
 
-        xml.cac :PaymentTerms do
-          xml.cbc :Note, payment_terms_note
+        unless payment_terms_note.nil?
+          xml.cac :PaymentTerms do
+            xml.cbc :Note, payment_terms_note
+          end
         end
 
-        xml.cac :TaxTotal do
-          tax_total&.to_xml(xml)
+        unless tax_total.nil?
+          xml.cac :TaxTotal do
+            tax_total&.to_xml(xml)
+          end
         end
 
-        xml.cac :LegalMonetaryTotal do
-          legal_monetary_total&.to_xml(xml)
+        unless legal_monetary_total.nil?
+          xml.cac :LegalMonetaryTotal do
+            legal_monetary_total&.to_xml(xml)
+          end
         end
 
         invoice_lines.each do |invoice_line|
