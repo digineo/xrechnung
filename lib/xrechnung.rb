@@ -23,7 +23,6 @@ require "xrechnung/price"
 require "xrechnung/invoice_line"
 require "xrechnung/invoice_document_reference"
 require "builder"
-require "base64"
 
 module Xrechnung
   class Error < StandardError; end
@@ -232,6 +231,10 @@ module Xrechnung
     # @!attribute legal_monetary_total
     #   @return [Xrechnung::LegalMonetaryTotal]
     member :legal_monetary_total, type: Xrechnung::LegalMonetaryTotal
+
+    # Ein Element um Rechnungs PDFs inline mit base64 encoded zu embedden.
+    #  @return [Xrechnung::AdditionalDocumentReference]
+    member :additional_document_reference, type: Xrechnung::AdditionalDocumentReference
 
     # INVOICE LINE BG-25
     #
