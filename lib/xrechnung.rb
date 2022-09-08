@@ -1,4 +1,5 @@
 require "xrechnung/version"
+require "xrechnung/additional_document_reference"
 require "date"
 require "xrechnung/currency"
 require "xrechnung/quantity"
@@ -22,6 +23,7 @@ require "xrechnung/price"
 require "xrechnung/invoice_line"
 require "xrechnung/invoice_document_reference"
 require "builder"
+require "base64"
 
 module Xrechnung
   class Error < StandardError; end
