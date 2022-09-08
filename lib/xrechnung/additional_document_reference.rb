@@ -19,7 +19,7 @@ module Xrechnung
         xml.cbc :ID, id
         xml.cbc :DocumentType, document_type
         xml.cac :Attachment do
-          xml.cac :EmbeddedDocumentBinaryObject, mimeCode: "application/pdf", filename: id do
+          xml.cbc :EmbeddedDocumentBinaryObject, mimeCode: "application/pdf", filename: id do
             base64_blob
           end
         end
