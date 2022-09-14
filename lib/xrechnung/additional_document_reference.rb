@@ -12,7 +12,7 @@ module Xrechnung
 
     # @!attribute issue_date
     #   @return [base64_blob]
-    member :base64_blob, type: String
+    member :base64_blob, type: Object
 
     def to_xml(xml)
       xml.cac :AdditionalDocumentReference do

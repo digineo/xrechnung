@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xrechnung (0.1.4)
+    xrechnung (0.1.10)
       builder (~> 3.2)
 
 GEM

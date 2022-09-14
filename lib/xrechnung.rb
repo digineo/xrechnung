@@ -333,11 +333,11 @@ module Xrechnung
           end
         end
 
+        additional_document_reference&.to_xml(xml)
+
         invoice_lines.each do |invoice_line|
           invoice_line&.to_xml(xml)
         end
-
-        additional_document_reference&.to_xml(xml)
       end
       target
     end

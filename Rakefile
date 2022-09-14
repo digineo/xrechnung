@@ -9,12 +9,12 @@ task :default => :spec
 namespace :validator do
   VALIDATOR_SOURCES = {
     tool: {
-      filename:    "validator/validationtool-1.4.1-standalone.jar",
-      release_url: "https://github.com/itplr-kosit/validator/releases/download/v1.4.1/validationtool-1.4.1.zip",
+      filename:    "validator/validationtool-1.4.2-standalone.jar",
+      release_url: "https://github.com/itplr-kosit/validator/releases/download/v1.4.2/validator-1.4.2-distribution.zip",
     },
     scenarios: {
       filename:    "validator/scenarios.xml",
-      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2020-12-31/validator-configuration-xrechnung_2.0.1_2020-12-31.zip",
+      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2022-07-15/validator-configuration-xrechnung_2.2.0_2022-07-15.zip",
     }
   }
 
