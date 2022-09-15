@@ -315,29 +315,29 @@ module Xrechnung
           invoice_line&.to_xml(xml)
         end
 
-        unless members[:billing_reference][:optional] && billing_reference.nil?
-          xml.cac :BillingReference do
-            billing_reference&.to_xml(xml)
-          end
-        end
+        #unless members[:billing_reference][:optional] && billing_reference.nil?
+          #xml.cac :BillingReference do
+            #billing_reference&.to_xml(xml)
+          #end
+        #end
 
-        unless contract_document_reference_id.nil?
-          xml.cac :ContractDocumentReference do
-            xml.cbc :ID, contract_document_reference_id
-          end
-        end
+        #unless contract_document_reference_id.nil?
+          #xml.cac :ContractDocumentReference do
+            #xml.cbc :ID, contract_document_reference_id
+          #end
+        #end
 
-        unless project_reference_id.nil?
-          xml.cac :ProjectReference do
-            xml.cbc :ID, project_reference_id
-          end
-        end
+        #unless project_reference_id.nil?
+          #xml.cac :ProjectReference do
+            #xml.cbc :ID, project_reference_id
+          #end
+        #end
 
-        unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
-          xml.cac :TaxRepresentativeParty do
-            tax_representative_party&.to_xml(xml)
-          end
-        end
+        #unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
+          #xml.cac :TaxRepresentativeParty do
+            #tax_representative_party&.to_xml(xml)
+          #end
+        #end
 
       end
       target
