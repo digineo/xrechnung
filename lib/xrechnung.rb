@@ -277,6 +277,38 @@ module Xrechnung
           end
         end
 
+        additional_document_reference&.to_xml(xml)
+
+        xml.cac :AccountingSupplierParty do
+          accounting_supplier_party&.to_xml(xml)
+        end
+
+        xml.cac :AccountingCustomerParty do
+          accounting_customer_party&.to_xml(xml)
+        end
+
+        unless payment_means.nil?
+          xml.cac :PaymentMeans do
+            payment_means&.to_xml(xml)
+          end
+        end
+
+        unless tax_total.nil?
+          xml.cac :TaxTotal do
+            tax_total&.to_xml(xml)
+          end
+        end
+
+        unless legal_monetary_total.nil?
+          xml.cac :LegalMonetaryTotal do
+            legal_monetary_total&.to_xml(xml)
+          end
+        end
+
+        invoice_lines.each do |invoice_line|
+          invoice_line&.to_xml(xml)
+        end
+
         unless members[:billing_reference][:optional] && billing_reference.nil?
           xml.cac :BillingReference do
             billing_reference&.to_xml(xml)
@@ -295,23 +327,9 @@ module Xrechnung
           end
         end
 
-        xml.cac :AccountingSupplierParty do
-          accounting_supplier_party&.to_xml(xml)
-        end
-
-        xml.cac :AccountingCustomerParty do
-          accounting_customer_party&.to_xml(xml)
-        end
-
         unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
           xml.cac :TaxRepresentativeParty do
             tax_representative_party&.to_xml(xml)
-          end
-        end
-
-        unless payment_means.nil?
-          xml.cac :PaymentMeans do
-            payment_means&.to_xml(xml)
           end
         end
 
@@ -321,23 +339,6 @@ module Xrechnung
           end
         end
 
-        unless tax_total.nil?
-          xml.cac :TaxTotal do
-            tax_total&.to_xml(xml)
-          end
-        end
-
-        unless legal_monetary_total.nil?
-          xml.cac :LegalMonetaryTotal do
-            legal_monetary_total&.to_xml(xml)
-          end
-        end
-
-        additional_document_reference&.to_xml(xml)
-
-        invoice_lines.each do |invoice_line|
-          invoice_line&.to_xml(xml)
-        end
       end
       target
     end
