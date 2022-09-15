@@ -55,6 +55,18 @@ module Xrechnung
     #   @return [Date]
     member :due_date, type: Date
 
+    # Der Begin der Leistungsperiode
+    #
+    # @!attribute invoice_start_date
+    #   @return [Date]
+    member :invoice_start_date, type: Date
+
+    # Das Ende der Leistungsperiode
+    #
+    # @!attribute invoice_end_date
+    #   @return [Date]
+    member :invoice_end_date, type: Date
+
     # Invoice type code BT-3
     # Ein Code, der den Funktionstyp der Rechnung angibt.
     #
@@ -269,6 +281,13 @@ module Xrechnung
         xml.cbc :DocumentCurrencyCode, document_currency_code
         xml.cbc :TaxCurrencyCode, tax_currency_code if tax_currency_code
         xml.cbc :BuyerReference, buyer_reference
+
+        unless invoice_start_date.nil? && invoice_end_date.nil?
+          xml.cac :InvoicePeriod do
+            xml.cbc:StartDate, invoice_start_date
+            xml.cbc:EndDate, invoice_end_date
+          end
+        end
 
         xml.cac :OrderReference do
           xml.cbc :ID, purchase_order_reference
