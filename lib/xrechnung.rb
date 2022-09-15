@@ -293,6 +293,12 @@ module Xrechnung
           end
         end
 
+        unless payment_terms_note.nil?
+          xml.cac :PaymentTerms do
+            xml.cbc :Note, payment_terms_note
+          end
+        end
+
         unless tax_total.nil?
           xml.cac :TaxTotal do
             tax_total&.to_xml(xml)
@@ -330,12 +336,6 @@ module Xrechnung
         unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
           xml.cac :TaxRepresentativeParty do
             tax_representative_party&.to_xml(xml)
-          end
-        end
-
-        unless payment_terms_note.nil?
-          xml.cac :PaymentTerms do
-            xml.cbc :Note, payment_terms_note
           end
         end
 
