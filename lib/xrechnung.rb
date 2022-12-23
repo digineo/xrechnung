@@ -123,6 +123,14 @@ module Xrechnung
     #   @return [String]
     member :sales_order_reference, type: String, optional: true
 
+    # Invoiced object identifier BT-18
+    #
+    # Eine vom Verkäufer angegebene Kennung für ein Objekt, auf das sich die Rechnung bezieht.
+    #
+    # @!attribute invoiced_object_identifier
+    #   @return [String]
+    member :invoiced_object_identifier, type: String, optional: true
+
     # Gruppe SELLER BG-4
     #
     # Eine Gruppe von Informationselementen, die Informationen über den Verkäufer liefern.
@@ -180,14 +188,6 @@ module Xrechnung
     # @!attribute billing_reference
     #   @return [Xrechnung::InvoiceDocumentReference]
     member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
-
-    # Contract reference BT-12
-    #
-    # Eine eindeutige Bezeichnung des Vertrages (z. B. Vertragsnummer).
-    #
-    # @!attribute contract_document_reference_id
-    #   @return [String]
-    member :contract_document_reference_id, type: String
 
     # Project reference BT-11
     #
@@ -334,15 +334,16 @@ module Xrechnung
           invoice_line&.to_xml(xml)
         end
 
+        # BT-18
+        unless invoiced_object_identifier.nil?
+          xml.cac :AdditionalDocumentReference do
+            xml.cbc :ID, invoiced_object_identifier
+          end
+        end
+
         #unless members[:billing_reference][:optional] && billing_reference.nil?
           #xml.cac :BillingReference do
             #billing_reference&.to_xml(xml)
-          #end
-        #end
-
-        #unless contract_document_reference_id.nil?
-          #xml.cac :ContractDocumentReference do
-            #xml.cbc :ID, contract_document_reference_id
           #end
         #end
 
