@@ -189,6 +189,14 @@ module Xrechnung
     #   @return [Xrechnung::InvoiceDocumentReference]
     member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
 
+    # Contract reference BT-12
+    #
+    # Eine eindeutige Bezeichnung des Vertrages (z. B. Vertragsnummer).
+    #
+    # @!attribute contract_document_reference_id
+    #   @return [String]
+    member :contract_document_reference_id, type: String
+
     # Project reference BT-11
     #
     # Die Kennung eines Projektes, auf das sich die Rechnung bezieht.
@@ -332,6 +340,13 @@ module Xrechnung
 
         invoice_lines.each do |invoice_line|
           invoice_line&.to_xml(xml)
+        end
+
+        # BT-12
+        unless contract_document_reference_id.nil?
+          xml.cac :ContractDocumentReference do
+            xml.cbc :ID, contract_document_reference_id
+          end
         end
 
         # BT-18
