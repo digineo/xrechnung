@@ -295,18 +295,6 @@ module Xrechnung
         xml.cbc :TaxCurrencyCode, tax_currency_code if tax_currency_code
         xml.cbc :BuyerReference, buyer_reference
 
-        unless contract_document_reference_id.nil?
-          xml.cac :ContractDocumentReference do
-            xml.cbc :ID, contract_document_reference_id
-          end
-        end
-
-        unless invoiced_object_identifier.nil?
-          xml.cac :AdditionalDocumentReference do
-            xml.cbc :ID, invoiced_object_identifier
-          end
-        end
-
         unless invoice_start_date.nil? && invoice_end_date.nil?
           xml.cac :InvoicePeriod do
             xml.cbc:StartDate, invoice_start_date
@@ -318,6 +306,18 @@ module Xrechnung
           xml.cbc :ID, purchase_order_reference
           unless members[:sales_order_reference][:optional] && sales_order_reference.nil?
             xml.cbc :SalesOrderID, sales_order_reference
+          end
+        end
+
+        unless contract_document_reference_id.nil?
+          xml.cac :ContractDocumentReference do
+            xml.cbc :ID, contract_document_reference_id
+          end
+        end
+
+        unless invoiced_object_identifier.nil?
+          xml.cac :AdditionalDocumentReference do
+            xml.cbc :ID, invoiced_object_identifier
           end
         end
 
