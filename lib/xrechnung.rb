@@ -2,6 +2,7 @@ require "xrechnung/version"
 require "date"
 require "xrechnung/currency"
 require "xrechnung/quantity"
+require "xrechnung/delivery"
 require "xrechnung/id"
 require "xrechnung/member_container"
 require "xrechnung/additional_document_reference"
@@ -264,6 +265,10 @@ module Xrechnung
     # @!attribute invoice_lines
     #   @return [Array]
     member :invoice_lines, type: Array, default: []
+
+    # Ein Element um Rechnungs PDFs inline mit base64 encoded zu embedden.
+    #  @return [Xrechnung::Delivery]
+    member :delivery, type: Xrechnung::Delivery
 
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
