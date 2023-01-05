@@ -311,6 +311,10 @@ module Xrechnung
 
         additional_document_reference&.to_xml(xml)
 
+        unless delivery.nil?
+          delivery&.to_xml(xml)
+        end
+
         xml.cac :AccountingSupplierParty do
           accounting_supplier_party&.to_xml(xml)
         end
