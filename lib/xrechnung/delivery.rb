@@ -4,7 +4,7 @@ module Xrechnung
     #
     # @!attribute actual_delivery_date
     #   @return [String]
-    member :actual_delivery_date, type: String
+    member :actual_delivery_date, type: Date
 
     # @!attribute party_name
     #   @return [String]
