@@ -270,6 +270,12 @@ module Xrechnung
     #  @return [Xrechnung::Delivery]
     member :delivery, type: Xrechnung::Delivery
 
+#############################################################################################
+# IMPORTANT!
+# !!! The order of the xml.cbc's is absolutly important for the xsl schema validator !!!
+# so don't just add new elements at the end, the final element needs to be the invoice lines
+############################################################################################# 
+
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
@@ -321,6 +327,12 @@ module Xrechnung
           end
         end
 
+        unless project_reference_id.nil?
+          xml.cac :ProjectReference do
+            xml.cbc :ID, project_reference_id
+          end
+        end
+
         additional_document_reference&.to_xml(xml)
 
         xml.cac :AccountingSupplierParty do
@@ -363,17 +375,16 @@ module Xrechnung
           invoice_line&.to_xml(xml)
         end
 
+        # !!!
+        # don't add any other elements after invoice_lines, it looks like the validator doesn't like that
+        # !!!
+
         #unless members[:billing_reference][:optional] && billing_reference.nil?
           #xml.cac :BillingReference do
             #billing_reference&.to_xml(xml)
           #end
         #end
 
-        #unless project_reference_id.nil?
-          #xml.cac :ProjectReference do
-            #xml.cbc :ID, project_reference_id
-          #end
-        #end
 
         #unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
           #xml.cac :TaxRepresentativeParty do
