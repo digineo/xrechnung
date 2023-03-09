@@ -17,7 +17,6 @@ module Xrechnung
     def to_xml(xml)
       xml.cac :AdditionalDocumentReference do
         xml.cbc :ID, id
-        xml.cbc :DocumentType, document_type
         xml.cac :Attachment do
           xml.cbc :EmbeddedDocumentBinaryObject, base64_blob, mimeCode: "application/pdf", filename: id
         end
