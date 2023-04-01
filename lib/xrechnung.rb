@@ -327,13 +327,13 @@ module Xrechnung
           end
         end
 
+        additional_document_reference&.to_xml(xml)
+
         unless project_reference_id.nil?
           xml.cac :ProjectReference do
             xml.cbc :ID, project_reference_id
           end
         end
-
-        additional_document_reference&.to_xml(xml)
 
         xml.cac :AccountingSupplierParty do
           accounting_supplier_party&.to_xml(xml)
