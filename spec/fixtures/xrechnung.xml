@@ -12,6 +12,10 @@
   <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
   <cbc:TaxCurrencyCode>EUR</cbc:TaxCurrencyCode>
   <cbc:BuyerReference>9900 0000 - 1234 56 - 23</cbc:BuyerReference>
+  <cac:InvoicePeriod>
+    <cbc:StartDate>2021-04-01</cbc:StartDate>
+    <cbc:EndDate>2021-04-30</cbc:EndDate>
+  </cac:InvoicePeriod>
   <cac:OrderReference>
     <cbc:ID>0815-99-1</cbc:ID>
   </cac:OrderReference>
@@ -182,6 +186,10 @@
     <cbc:ID>1</cbc:ID>
     <cbc:InvoicedQuantity unitCode="XPP">5.00</cbc:InvoicedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">1285.70</cbc:LineExtensionAmount>
+    <cac:InvoicePeriod>
+      <cbc:StartDate>2021-04-07</cbc:StartDate>
+      <cbc:EndDate>2021-04-13</cbc:EndDate>
+    </cac:InvoicePeriod>
     <cac:Item>
       <cbc:Description>Dichtungsfolie 2.5 mm stark, 1.5 m breit</cbc:Description>
       <cbc:Name>Dichtungsfolie</cbc:Name>

@@ -1,3 +1,5 @@
+require "xrechnung/invoice_period"
+
 module Xrechnung
   class InvoiceLine
     include MemberContainer
@@ -13,6 +15,10 @@ module Xrechnung
     # @!attribute line_extension_amount
     #   @return [Xrechnung::Currency]
     member :line_extension_amount, type: Xrechnung::Currency
+
+    # @!attribute invoice_period
+    #   @return [Xrechnung::InvoicePeriod]
+    member :invoice_period, type: Xrechnung::InvoicePeriod, optional: true
 
     # @!attribute item
     #   @return [Xrechnung::Item]
@@ -33,6 +39,10 @@ module Xrechnung
         xml.cbc :ID, id
         xml.cbc :InvoicedQuantity, invoiced_quantity.amount_to_s, unitCode: invoiced_quantity.unit_code
         xml.cbc :LineExtensionAmount, *line_extension_amount.xml_args
+
+        unless members[:invoice_period][:optional] && invoice_period.nil?
+          invoice_period&.to_xml(xml)
+        end
         item&.to_xml(xml)
         price&.to_xml(xml)
       end
