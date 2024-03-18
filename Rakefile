@@ -14,7 +14,7 @@ namespace :validator do
     },
     scenarios: {
       filename:    "validator/scenarios.xml",
-      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2020-12-31/validator-configuration-xrechnung_2.0.1_2020-12-31.zip",
+      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2023-05-12/validator-configuration-xrechnung_2.3.1_2023-05-12.zip",
     }
   }
 
