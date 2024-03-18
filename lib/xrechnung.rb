@@ -270,18 +270,18 @@ module Xrechnung
         xml.cbc :TaxCurrencyCode, tax_currency_code
         xml.cbc :BuyerReference, buyer_reference
 
-        unless members[:invoice_period][:optional] && invoice_period.nil?
+        unless self.class.members[:invoice_period].optional && invoice_period.nil?
           invoice_period&.to_xml(xml)
         end
 
         xml.cac :OrderReference do
           xml.cbc :ID, purchase_order_reference
-          unless members[:sales_order_reference][:optional] && sales_order_reference.nil?
+          unless self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
             xml.cbc :SalesOrderID, sales_order_reference
           end
         end
 
-        unless members[:billing_reference][:optional] && billing_reference.nil?
+        unless self.class.members[:billing_reference].optional && billing_reference.nil?
           xml.cac :BillingReference do
             billing_reference&.to_xml(xml)
           end
@@ -303,7 +303,7 @@ module Xrechnung
           accounting_customer_party&.to_xml(xml)
         end
 
-        unless members[:tax_representative_party][:optional] && tax_representative_party.nil?
+        unless self.class.members[:tax_representative_party].optional && tax_representative_party.nil?
           xml.cac :TaxRepresentativeParty do
             tax_representative_party&.to_xml(xml)
           end

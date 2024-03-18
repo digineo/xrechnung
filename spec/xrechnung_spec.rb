@@ -136,4 +136,13 @@ RSpec.describe Xrechnung do
   it "sets defaults" do
     expect(doc.to_xml).to include "<cbc:InvoiceTypeCode>380</cbc:InvoiceTypeCode>"
   end
+
+  it "thread safe initializer" do
+    doc1 = ::Xrechnung::Document.new
+    doc2 = ::Xrechnung::Document.new
+
+    doc1.invoice_lines << Xrechnung::InvoiceLine.new
+
+    expect(doc2.invoice_lines).to be_empty # Fails - doc1 and doc2 have the same invoice lines
+  end
 end

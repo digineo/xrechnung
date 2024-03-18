@@ -40,10 +40,10 @@ module Xrechnung
 
     # noinspection RubyResolve
     def to_xml(xml)
-      members.each do |member, _options|
-        next if self[member].nil?
+      self.class.members.each_key do |name|
+        next if self[name].nil?
 
-        xml.cbc :"#{member.to_s.split("_").map(&:capitalize).join}", *self[member].xml_args
+        xml.cbc :"#{name.to_s.split("_").map(&:capitalize).join}", *self[name].xml_args
       end
       xml.target!
     end
