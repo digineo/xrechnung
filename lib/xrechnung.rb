@@ -301,7 +301,7 @@ module Xrechnung
         xml.cbc :TaxCurrencyCode, tax_currency_code if tax_currency_code
         xml.cbc :BuyerReference, buyer_reference
 
-        unless invoice_start_date.nil? && invoice_end_date.nil?
+        unless invoice_start_date.blank? && invoice_end_date.blank?
           xml.cac :InvoicePeriod do
             xml.cbc:StartDate, invoice_start_date
             xml.cbc:EndDate, invoice_end_date
@@ -310,18 +310,18 @@ module Xrechnung
 
         xml.cac :OrderReference do
           xml.cbc :ID, purchase_order_reference
-          unless members[:sales_order_reference][:optional] && sales_order_reference.nil?
+          unless members[:sales_order_reference][:optional] && sales_order_reference.blank?
             xml.cbc :SalesOrderID, sales_order_reference
           end
         end
 
-        unless contract_document_reference_id.nil?
+        unless contract_document_reference_id.blank?
           xml.cac :ContractDocumentReference do
             xml.cbc :ID, contract_document_reference_id
           end
         end
 
-        unless invoiced_object_identifier.nil?
+        unless invoiced_object_identifier.blank?
           xml.cac :AdditionalDocumentReference do
             xml.cbc :ID, invoiced_object_identifier
           end
@@ -329,7 +329,7 @@ module Xrechnung
 
         additional_document_reference&.to_xml(xml)
 
-        unless project_reference_id.nil?
+        unless project_reference_id.blank?
           xml.cac :ProjectReference do
             xml.cbc :ID, project_reference_id
           end
@@ -343,29 +343,29 @@ module Xrechnung
           accounting_customer_party&.to_xml(xml)
         end
 
-        unless delivery.nil?
+        unless delivery.blank?
           delivery&.to_xml(xml)
         end
 
-        unless payment_means.nil?
+        unless payment_means.blank?
           xml.cac :PaymentMeans do
             payment_means&.to_xml(xml)
           end
         end
 
-        unless payment_terms_note.nil?
+        unless payment_terms_note.blank?
           xml.cac :PaymentTerms do
             xml.cbc :Note, payment_terms_note
           end
         end
 
-        unless tax_total.nil?
+        unless tax_total.blank?
           xml.cac :TaxTotal do
             tax_total&.to_xml(xml)
           end
         end
 
-        unless legal_monetary_total.nil?
+        unless legal_monetary_total.blank?
           xml.cac :LegalMonetaryTotal do
             legal_monetary_total&.to_xml(xml)
           end
