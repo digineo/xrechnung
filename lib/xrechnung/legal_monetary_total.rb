@@ -3,7 +3,7 @@ module Xrechnung
     include MemberContainer
 
     transform_currency = ->(v) {
-      Currency::EUR(v)
+      v.is_a?(Currency) ? v : Currency::EUR(v)
     }
 
     # @!attribute line_extension_amount

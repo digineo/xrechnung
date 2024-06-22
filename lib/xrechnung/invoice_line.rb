@@ -29,7 +29,9 @@ module Xrechnung
     member :price, type: Xrechnung::Price
 
     def initialize(**kwargs)
-      kwargs[:line_extension_amount] = Currency::EUR(kwargs[:line_extension_amount])
+      unless kwargs[:line_extension_amount].is_a?(Currency)
+        kwargs[:line_extension_amount] = Currency::EUR(kwargs[:line_extension_amount])
+      end
       super(**kwargs)
     end
 

@@ -3,7 +3,7 @@ def build_legal_monetary_total
     line_extension_amount:   2580,
     tax_exclusive_amount:    2580,
     tax_inclusive_amount:    2877.09,
-    allowance_total_amount:  0,
+    allowance_total_amount:  Xrechnung::Currency::EUR(0),
     charge_total_amount:     0,
     prepaid_amount:          0,
     payable_rounding_amount: 0,
