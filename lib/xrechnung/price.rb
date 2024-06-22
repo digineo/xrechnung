@@ -23,7 +23,7 @@ module Xrechnung
     def to_xml(xml)
       xml.cac :Price do
         xml.cbc :PriceAmount, *price_amount.xml_args
-        xml.cbc :BaseQuantity, *base_quantity.xml_args
+        xml.cbc(:BaseQuantity, *base_quantity.xml_args) unless base_quantity.nil?
         allowance_charge&.to_xml(xml)
       end
     end
