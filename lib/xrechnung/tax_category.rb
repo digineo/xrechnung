@@ -29,6 +29,14 @@ module Xrechnung
     #   @return [String]
     member :tax_scheme_id, type: String, default: "VAT"
 
+    # @!attribute tax_exemption_reason_code
+    #   @return [String]
+    member :tax_exemption_reason_code, type: String
+
+    # @!attribute tax_exemption_reason
+    #   @return [String]
+    member :tax_exemption_reason, type: String
+
     # noinspection RubyResolve
     def to_xml(xml, root_tag_name: :TaxCategory)
       xml.cac root_tag_name do
@@ -36,6 +44,11 @@ module Xrechnung
         xml.cbc :Percent, format("%.2f", percent)
         xml.cac :TaxScheme do
           xml.cbc :ID, tax_scheme_id
+        end
+
+        unless tax_exemption_reason_code.nil?
+          xml.cbc :TaxExemptionReasonCode, tax_exemption_reason_code
+          xml.cbc :TaxExemptionReason, tax_exemption_reason
         end
       end
     end
