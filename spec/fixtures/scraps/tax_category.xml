@@ -4,4 +4,6 @@
   <cac:TaxScheme>
     <cbc:ID>VAT</cbc:ID>
   </cac:TaxScheme>
+  <cbc:TaxExemptionReasonCode>VATEX-EU-S</cbc:TaxExemptionReasonCode>
+  <cbc:TaxExemptionReason>Exempt</cbc:TaxExemptionReason>
 </cac:TaxCategory>
