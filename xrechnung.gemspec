@@ -24,6 +24,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "builder", "~> 3.2"
 
-  spec.add_development_dependency "httparty"
+  spec.add_development_dependency "httparty", "~> 0.22"
   spec.add_development_dependency "rubyzip", "~> 2.0"
 end
