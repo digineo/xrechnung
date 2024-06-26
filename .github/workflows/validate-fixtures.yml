@@ -1,6 +1,6 @@
 name: Validate spec fixtures
 
-on: push
+on: [push, pull_request]
 
 jobs:
   validate:
@@ -16,7 +16,7 @@ jobs:
 
     - uses: ruby/setup-ruby@v1
       with:
-        ruby-version:  "2.7"
+        ruby-version:  "3.2"
         bundler-cache: true
 
     - name: Prepare validator

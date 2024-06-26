@@ -1,6 +1,6 @@
 name: Ruby
 
-on: [push, fork]
+on: [push, pull_request]
 
 jobs:
   test:
