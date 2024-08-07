@@ -4,9 +4,8 @@ module Xrechnung
       format("%0.2f", amount)
     end
 
-
     def xml_args
-      [amount_to_s, unitCode: unit_code]
+      [amount_to_s, { unitCode: unit_code }]
     end
   end
 end

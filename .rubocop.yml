@@ -12,7 +12,7 @@ AllCops:
   - Gemfile
   DisplayCopNames: true
   StyleGuideCopsOnly: false
-  TargetRubyVersion: 2.7
+  TargetRubyVersion: 3.0
 
 ## Layout Cops - https://docs.rubocop.org/rubocop/cops_layout.html
 

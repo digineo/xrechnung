@@ -4,19 +4,19 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
-task :default => :spec
+task default: :spec
 
 namespace :validator do
   VALIDATOR_SOURCES = {
-    tool: {
+    tool:      {
       filename:    "validator/validationtool-1.4.1-standalone.jar",
       release_url: "https://github.com/itplr-kosit/validator/releases/download/v1.4.1/validationtool-1.4.1.zip",
     },
     scenarios: {
       filename:    "validator/scenarios.xml",
       release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2023-05-12/validator-configuration-xrechnung_2.3.1_2023-05-12.zip",
-    }
-  }
+    },
+  }.freeze
 
   VALIDATOR_SOURCES.each do |_, v|
     base    = Pathname.new(__dir__).join("validator")

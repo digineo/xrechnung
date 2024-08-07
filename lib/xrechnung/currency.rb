@@ -8,7 +8,7 @@ module Xrechnung
     end
 
     def xml_args
-      [value_to_s, currencyID: currency_id]
+      [value_to_s, { currencyID: currency_id }]
     end
   end
 

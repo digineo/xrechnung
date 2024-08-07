@@ -42,9 +42,7 @@ module Xrechnung
         xml.cbc :InvoicedQuantity, invoiced_quantity.amount_to_s, unitCode: invoiced_quantity.unit_code
         xml.cbc :LineExtensionAmount, *line_extension_amount.xml_args
 
-        unless self.class.members[:invoice_period].optional && invoice_period.nil?
-          invoice_period&.to_xml(xml)
-        end
+        invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
         item&.to_xml(xml)
         price&.to_xml(xml)
       end

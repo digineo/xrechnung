@@ -43,7 +43,7 @@ module Xrechnung
       self.class.members.each_key do |name|
         next if self[name].nil?
 
-        xml.cbc :"#{name.to_s.split("_").map(&:capitalize).join}", *self[name].xml_args
+        xml.cbc :"#{name.to_s.split('_').map(&:capitalize).join}", *self[name].xml_args
       end
       xml.target!
     end

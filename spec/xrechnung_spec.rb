@@ -11,7 +11,7 @@ RSpec.describe Xrechnung do
   end
 
   it "has a version number" do
-    expect(Xrechnung::VERSION).not_to be nil
+    expect(Xrechnung::VERSION).not_to be_nil
   end
 
   # rubocop:disable RSpec/ExampleLength
@@ -39,7 +39,7 @@ RSpec.describe Xrechnung do
     doc.accounting_supplier_party = build_party
 
     doc.accounting_customer_party = Xrechnung::Party.new(
-      postal_address:     Xrechnung::PostalAddress.new(
+      postal_address:       Xrechnung::PostalAddress.new(
         street_name:            "Malerweg 2",
         additional_street_name: "Hinterhof A",
         city_name:              "Großstadt",
@@ -50,10 +50,10 @@ RSpec.describe Xrechnung do
       party_identification: Xrechnung::PartyIdentification.new(
         id: "70012",
       ),
-      party_legal_entity: Xrechnung::PartyLegalEntity.new(
+      party_legal_entity:   Xrechnung::PartyLegalEntity.new(
         registration_name: "Bauamt GmbH & Co KG",
       ),
-      contact:            Xrechnung::Contact.new(
+      contact:              Xrechnung::Contact.new(
         name:            "Manfred Mustermann",
         telephone:       "+49 12345 98 765 - 44",
         electronic_mail: "manfred.mustermann@bauamt.de",

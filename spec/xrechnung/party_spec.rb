@@ -1,6 +1,5 @@
-require 'spec_helper'
+require "spec_helper"
 load("spec/fixtures/ruby/party.rb")
-
 
 RSpec.describe Xrechnung::Party do
   let(:party) do
@@ -20,6 +19,6 @@ RSpec.describe Xrechnung::Party do
   it "generates flat party" do
     party.nested = false
 
-    expect(to_xml(party)).to_not include "<cbc:Party>"
+    expect(to_xml(party)).not_to include "<cbc:Party>"
   end
 end
