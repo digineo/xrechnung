@@ -30,6 +30,15 @@ module Xrechnung
   class Document
     include MemberContainer
 
+    # Default customization specs
+    DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3"
+
+    # Document customization identifier
+    #
+    # @!attribute customization_id
+    #   @return [String]
+    member :customization_id, type: String, default: DEFAULT_CUSTOMIZATION_ID
+
     # Invoice number BT-1
     #
     # Eine eindeutige Kennung der Rechnung, die diese im System des Verkäufers identifiziert.
@@ -255,7 +264,7 @@ module Xrechnung
         "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
         "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
         "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
-        xml.cbc :CustomizationID, "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3"
+        xml.cbc :CustomizationID, customization_id
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
         xml.cbc :DueDate, due_date
