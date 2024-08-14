@@ -261,6 +261,17 @@ module Xrechnung
     #   @return [Array]
     member :invoice_lines, type: Array, default: []
 
+    # DOCUMENT LEVEL ALLOWANCES AND CHARGES BG-20, BG-21
+    #
+    # A group of business terms providing information about allowances
+    # applicable to the Invoice as a whole. A group of business terms providing
+    # information about charges and taxes other than VAT, applicable to the
+    # Invoice as a whole.
+    #
+    # @!attribute allowance_charges
+    #   @return [Array]
+    member :allowance_charges, type: Array, default: []
+
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
@@ -330,6 +341,10 @@ module Xrechnung
 
         xml.cac :PaymentTerms do
           xml.cbc :Note, payment_terms_note
+        end
+
+        allowance_charges.each do |allowance_charge|
+          allowance_charge&.to_xml(xml)
         end
 
         xml.cac :TaxTotal do
