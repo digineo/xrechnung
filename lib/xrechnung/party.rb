@@ -6,6 +6,11 @@ module Xrechnung
     #   @return [String]
     member :name, type: String
 
+
+    # @!attribute electronic_mail
+    #   @return [String]
+    member :electronic_mail, type: String
+
     # @!attribute postal_address
     #   @return [Xrechnung::PostalAddress]
     member :postal_address, type: Xrechnung::PostalAddress
@@ -54,8 +59,10 @@ module Xrechnung
           else
             xml.cbc :Name, name
           end
+          xml.cbc :ElectronicMail, electronic_mail # no idea if this is correct
         end
       end
+
       party_identification&.to_xml(xml)
       postal_address&.to_xml(xml)
       party_tax_scheme&.to_xml(xml)
