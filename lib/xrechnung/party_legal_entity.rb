@@ -13,8 +13,8 @@ module Xrechnung
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :PartyLegalEntity do
-        xml.cbc(:CompanyID, company_id) unless company_id.nil?
         xml.cbc :RegistrationName, registration_name
+        xml.cbc(:CompanyID, company_id) unless company_id.nil?
       end
     end
   end
