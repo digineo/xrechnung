@@ -32,12 +32,19 @@ module Xrechnung
 
     # Default customization specs
     DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3"
+    DEFAULT_PROFILE_ID = "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
 
     # Document customization identifier
     #
     # @!attribute customization_id
     #   @return [String]
     member :customization_id, type: String, default: DEFAULT_CUSTOMIZATION_ID
+
+    # Document profile identifier
+    #
+    # @!attribute profile_id
+    #   @return [String]
+    member :profile_id, type: String, default: DEFAULT_PROFILE_ID
 
     # Invoice number BT-1
     #
@@ -265,6 +272,7 @@ module Xrechnung
         "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
         "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
         xml.cbc :CustomizationID, customization_id
+        xml.cbc :ProfileID, profile_id
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
         xml.cbc :DueDate, due_date
