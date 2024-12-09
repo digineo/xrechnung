@@ -14,6 +14,14 @@ module Xrechnung
     #   @return [Xrechnung::Id]
     member :standard_item_identification_id, type: Xrechnung::Id, optional: true
 
+    # @!attribute buyers_item_identification_id
+    #   @return [Xrechnung::Id]
+    member :buyers_item_identification_id, type: Xrechnung::Id, optional: true
+
+    # @!attribute sellers_item_identification_id
+    #   @return [Xrechnung::Id]
+    member :sellers_item_identification_id, type: Xrechnung::Id, optional: true
+
     # @!attribute commodity_classification
     #   @return [Xrechnung::TaxCategory]
     member :commodity_classification, type: Xrechnung::TaxCategory
@@ -30,6 +38,16 @@ module Xrechnung
         unless standard_item_identification_id.nil?
           xml.cac :StandardItemIdentification do
             xml.cbc :ID, standard_item_identification_id.id, schemeID: standard_item_identification_id.scheme_id
+          end
+        end
+        unless buyers_item_identification_id.nil?
+          xml.cac :BuyersItemIdentification do
+            xml.cbc :ID, buyers_item_identification_id.id
+          end
+        end
+        unless sellers_item_identification_id.nil?
+          xml.cac :SellersItemIdentification do
+            xml.cbc :ID, sellers_item_identification_id.id
           end
         end
         xml.cac :CommodityClassification, commodity_classification
