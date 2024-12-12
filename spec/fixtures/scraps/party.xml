@@ -1,4 +1,5 @@
 <cac:Party>
+  <cbc:EndpointID schemeID="EM">harry.hirsch@hhhtb.de</cbc:EndpointID>
   <cac:PostalAddress>
     <cbc:StreetName>Beispielgasse 17</cbc:StreetName>
     <cbc:AdditionalStreetName>Haus A</cbc:AdditionalStreetName>

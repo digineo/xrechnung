@@ -8,7 +8,6 @@
     <cac:StandardItemIdentification>
       <cbc:ID schemeID="0160">L218</cbc:ID>
     </cac:StandardItemIdentification>
-    <cac:CommodityClassification/>
     <cac:ClassifiedTaxCategory>
       <cbc:ID>S</cbc:ID>
       <cbc:Percent>16.00</cbc:Percent>
@@ -19,11 +18,11 @@
   </cac:Item>
   <cac:Price>
     <cbc:PriceAmount currencyID="EUR">1294.30</cbc:PriceAmount>
-    <cbc:BaseQuantity unitCode="XPP">0.00</cbc:BaseQuantity>
+    <cbc:BaseQuantity unitCode="XPP">1.00</cbc:BaseQuantity>
     <cac:AllowanceCharge>
-      <cbc:ChargeIndicator>true</cbc:ChargeIndicator>
-      <cbc:Amount currencyID="EUR">0.00</cbc:Amount>
-      <cbc:BaseAmount currencyID="EUR">1294.30</cbc:BaseAmount>
+      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+      <cbc:Amount currencyID="EUR">1.00</cbc:Amount>
+      <cbc:BaseAmount currencyID="EUR">1295.30</cbc:BaseAmount>
     </cac:AllowanceCharge>
   </cac:Price>
 </cac:InvoiceLine>

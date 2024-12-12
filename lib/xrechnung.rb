@@ -31,7 +31,7 @@ module Xrechnung
     include MemberContainer
 
     # Default customization specs
-    DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_2.3"
+    DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0"
     DEFAULT_PROFILE_ID = "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
 
     # Document customization identifier
@@ -163,7 +163,7 @@ module Xrechnung
     #
     # @!attribute tax_currency_code
     #   @return [String]
-    member :tax_currency_code, type: String, default: "EUR"
+    member :tax_currency_code, type: String
 
     # Buyer reference BT-10
     #
@@ -284,7 +284,7 @@ module Xrechnung
 
         xml.cbc :TaxPointDate, tax_point_date unless tax_point_date.nil?
         xml.cbc :DocumentCurrencyCode, document_currency_code
-        xml.cbc :TaxCurrencyCode, tax_currency_code
+        xml.cbc :TaxCurrencyCode, tax_currency_code unless tax_currency_code.nil?
         xml.cbc :BuyerReference, buyer_reference
 
         invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
