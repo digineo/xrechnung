@@ -1,14 +1,13 @@
 PATH
   remote: .
   specs:
-    xrechnung (0.3.0)
+    xrechnung (0.4.0)
       builder (~> 3.2)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    bigdecimal (3.1.8)
     builder (3.3.0)
     csv (3.3.0)
     diff-lcs (1.5.1)
