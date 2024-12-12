@@ -1,0 +1,6 @@
+<cac:PaymentMandate>
+  <cbc:ID>SEPA-MANDAT-123</cbc:ID>
+  <cac:PayerFinancialAccount>
+    <cbc:ID>DE02500105170137075030</cbc:ID>
+  </cac:PayerFinancialAccount>
+</cac:PaymentMandate>

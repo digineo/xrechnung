@@ -11,6 +11,8 @@ require "xrechnung/party_tax_scheme"
 require "xrechnung/postal_address"
 require "xrechnung/party"
 require "xrechnung/payee_financial_account"
+require "xrechnung/payment_mandate"
+require "xrechnung/payee_party"
 require "xrechnung/payment_means"
 require "xrechnung/tax_total"
 require "xrechnung/tax_category"
@@ -223,6 +225,15 @@ module Xrechnung
     #   @return [Xrechnung::PaymentMeans]
     member :payment_means, type: Xrechnung::PaymentMeans
 
+    # PAYEE PARTY BG-10
+    #
+    # A group of business terms providing information about the Payee, i.e. the role that receives
+    # the payment. Shall be used when the Payee is different from the Seller.
+    #
+    # @!attribute payee_party
+    #   @return [Xrechnung::PayeeParty]
+    member :payee_party, type: Xrechnung::PayeeParty, optional: true
+
     # Payment terms BT-20
     #
     # Eine Textbeschreibung der Zahlungsbedingungen, die für den fälligen Zahlungsbetrag gelten (einschließlich
@@ -337,6 +348,10 @@ module Xrechnung
 
         xml.cac :PaymentMeans do
           payment_means&.to_xml(xml)
+        end
+
+        unless self.class.members[:payee_party].optional && payee_party.nil?
+          payee_party&.to_xml(xml)
         end
 
         xml.cac :PaymentTerms do

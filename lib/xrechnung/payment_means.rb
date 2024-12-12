@@ -20,10 +20,16 @@ module Xrechnung
     #   @return [Xrechnung::PayeeFinancialAccount]
     member :payee_financial_account, type: Xrechnung::PayeeFinancialAccount
 
+    # @!attribute payment_mandate
+    #   @return [Xrechnung::PaymentMandate]
+    member :payment_mandate, type: Xrechnung::PaymentMandate, optional: true
+
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cbc :PaymentMeansCode, payment_means_code
       payee_financial_account&.to_xml(xml)
+      payment_mandate&.to_xml(xml)
+      xml.target!
     end
   end
 end
