@@ -119,7 +119,7 @@ module Xrechnung
     #
     # @!attribute purchase_order_reference
     #   @return [String]
-    member :purchase_order_reference, type: String
+    member :purchase_order_reference, type: String, optional: true
 
     # Sales order reference BT-14
     #
@@ -197,7 +197,7 @@ module Xrechnung
     #
     # @!attribute contract_document_reference_id
     #   @return [String]
-    member :contract_document_reference_id, type: String
+    member :contract_document_reference_id, type: String, optional: true
 
     # Project reference BT-11
     #
@@ -205,7 +205,7 @@ module Xrechnung
     #
     # @!attribute project_reference_id
     #   @return [String]
-    member :project_reference_id, type: String
+    member :project_reference_id, type: String, optional: true
 
     # SELLER TAX REPRESENTATIVE PARTY BG-11
     #
@@ -311,10 +311,13 @@ module Xrechnung
 
         invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
 
-        xml.cac :OrderReference do
-          xml.cbc :ID, purchase_order_reference
-          unless self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
-            xml.cbc :SalesOrderID, sales_order_reference
+        unless self.class.members[:purchase_order_reference].optional && purchase_order_reference.nil? &&
+               self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
+          xml.cac :OrderReference do
+            xml.cbc :ID, purchase_order_reference
+            unless self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
+              xml.cbc :SalesOrderID, sales_order_reference
+            end
           end
         end
 
@@ -324,12 +327,16 @@ module Xrechnung
           end
         end
 
-        xml.cac :ContractDocumentReference do
-          xml.cbc :ID, contract_document_reference_id
+        unless self.class.members[:contract_document_reference_id].optional && contract_document_reference_id.nil?
+          xml.cac :ContractDocumentReference do
+            xml.cbc :ID, contract_document_reference_id
+          end
         end
 
-        xml.cac :ProjectReference do
-          xml.cbc :ID, project_reference_id
+        unless self.class.members[:project_reference_id].optional && project_reference_id.nil?
+          xml.cac :ProjectReference do
+            xml.cbc :ID, project_reference_id
+          end
         end
 
         xml.cac :AccountingSupplierParty do
