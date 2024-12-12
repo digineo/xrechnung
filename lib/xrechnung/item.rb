@@ -32,7 +32,7 @@ module Xrechnung
             xml.cbc :ID, standard_item_identification_id.id, schemeID: standard_item_identification_id.scheme_id
           end
         end
-        xml.cac :CommodityClassification, commodity_classification
+        xml.cac :CommodityClassification, commodity_classification unless commodity_classification.nil?
         classified_tax_category&.to_xml(xml, root_tag_name: :ClassifiedTaxCategory)
       end
     end

@@ -72,6 +72,7 @@ RSpec.describe Xrechnung do
       ),
       party_tax_scheme: Xrechnung::PartyTaxScheme.new(
         tax_scheme_id: "VAT",
+        company_id:    "DE214365879"
       ),
       nested:           false,
     )
@@ -104,9 +105,9 @@ RSpec.describe Xrechnung do
       ),
       price:                 Xrechnung::Price.new(
         price_amount:     257.14,
-        base_quantity:    Xrechnung::Quantity.new(0, "XPP"),
+        base_quantity:    Xrechnung::Quantity.new(1, "XPP"),
         allowance_charge: Xrechnung::AllowanceCharge.new(
-          charge_indicator: true,
+          charge_indicator: false,
           amount:           0,
           base_amount:      257.14,
         ),

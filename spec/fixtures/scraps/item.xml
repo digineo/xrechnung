@@ -4,7 +4,6 @@
   <cac:StandardItemIdentification>
     <cbc:ID schemeID="0160">L218</cbc:ID>
   </cac:StandardItemIdentification>
-  <cac:CommodityClassification/>
   <cac:ClassifiedTaxCategory>
     <cbc:ID>S</cbc:ID>
     <cbc:Percent>16.00</cbc:Percent>

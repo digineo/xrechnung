@@ -47,6 +47,8 @@ module Xrechnung
     private
 
     def party_body(xml)
+      xml.cbc :EndpointID, contact&.electronic_mail, schemeID: "EM" if contact&.electronic_mail
+
       party_identification&.to_xml(xml)
       unless name.nil? # if blank? -> empty name tag
         xml.cac :PartyName do
