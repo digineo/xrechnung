@@ -9,12 +9,12 @@ task default: :spec
 namespace :validator do
   VALIDATOR_SOURCES = {
     tool:      {
-      filename:    "validator/validationtool-1.4.1-standalone.jar",
-      release_url: "https://github.com/itplr-kosit/validator/releases/download/v1.4.1/validationtool-1.4.1.zip",
+      filename:    "validator/validationtool-1.5.0-standalone.jar",
+      release_url: "https://github.com/itplr-kosit/validator/releases/download/v1.5.0/validator-1.5.0-distribution.zip",
     },
     scenarios: {
       filename:    "validator/scenarios.xml",
-      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2023-05-12/validator-configuration-xrechnung_2.3.1_2023-05-12.zip",
+      release_url: "https://github.com/itplr-kosit/validator-configuration-xrechnung/releases/download/release-2024-10-31/validator-configuration-xrechnung_3.0.2_2024-10-31.zip",
     },
   }.freeze
 
@@ -50,6 +50,6 @@ namespace :validator do
     tool      = VALIDATOR_SOURCES[:tool][:filename]
     scenarios = VALIDATOR_SOURCES[:scenarios][:filename]
 
-    sh "java -jar #{tool} -s #{scenarios} --output-directory #{output} --html --disable-gui #{fixtures}"
+    sh "java -jar #{tool} -r validator -s #{scenarios} --output-directory #{output} --html #{fixtures}"
   end
 end
