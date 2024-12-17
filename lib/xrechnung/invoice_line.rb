@@ -28,6 +28,10 @@ module Xrechnung
     #   @return [Xrechnung::Price]
     member :price, type: Xrechnung::Price
 
+    # @!attribute allowance_charges
+    #   @return [Array<Xrechnung::AllowanceCharge>]
+    member :allowance_charges, type: Array, default: []
+
     def initialize(**kwargs)
       unless kwargs[:line_extension_amount].is_a?(Currency)
         kwargs[:line_extension_amount] = Currency::EUR(kwargs[:line_extension_amount])
@@ -43,6 +47,9 @@ module Xrechnung
         xml.cbc :LineExtensionAmount, *line_extension_amount.xml_args
 
         invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
+        allowance_charges.each do |allowance_charge|
+          allowance_charge.to_xml(xml)
+        end
         item&.to_xml(xml)
         price&.to_xml(xml)
       end

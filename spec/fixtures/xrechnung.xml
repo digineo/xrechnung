@@ -159,6 +159,12 @@
     <cbc:ID>0</cbc:ID>
     <cbc:InvoicedQuantity unitCode="XPP">1.00</cbc:InvoicedQuantity>
     <cbc:LineExtensionAmount currencyID="EUR">1294.30</cbc:LineExtensionAmount>
+    <cac:AllowanceCharge>
+      <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
+      <cbc:AllowanceChargeReasonCode>95</cbc:AllowanceChargeReasonCode>
+      <cbc:AllowanceChargeReason>Rabatt</cbc:AllowanceChargeReason>
+      <cbc:Amount currencyID="EUR">1.00</cbc:Amount>
+    </cac:AllowanceCharge>
     <cac:Item>
       <cbc:Description>Leimbinder 2x18m; Birke</cbc:Description>
       <cbc:Name>Leimbinder</cbc:Name>
@@ -174,12 +180,12 @@
       </cac:ClassifiedTaxCategory>
     </cac:Item>
     <cac:Price>
-      <cbc:PriceAmount currencyID="EUR">1294.30</cbc:PriceAmount>
+      <cbc:PriceAmount currencyID="EUR">1295.30</cbc:PriceAmount>
       <cbc:BaseQuantity unitCode="XPP">1.00</cbc:BaseQuantity>
       <cac:AllowanceCharge>
         <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
         <cbc:Amount currencyID="EUR">1.00</cbc:Amount>
-        <cbc:BaseAmount currencyID="EUR">1295.30</cbc:BaseAmount>
+        <cbc:BaseAmount currencyID="EUR">1296.30</cbc:BaseAmount>
       </cac:AllowanceCharge>
     </cac:Price>
   </cac:InvoiceLine>
