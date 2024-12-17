@@ -17,12 +17,12 @@
     </cac:ClassifiedTaxCategory>
   </cac:Item>
   <cac:Price>
-    <cbc:PriceAmount currencyID="EUR">1294.30</cbc:PriceAmount>
+    <cbc:PriceAmount currencyID="EUR">1295.30</cbc:PriceAmount>
     <cbc:BaseQuantity unitCode="XPP">1.00</cbc:BaseQuantity>
     <cac:AllowanceCharge>
       <cbc:ChargeIndicator>false</cbc:ChargeIndicator>
       <cbc:Amount currencyID="EUR">1.00</cbc:Amount>
-      <cbc:BaseAmount currencyID="EUR">1295.30</cbc:BaseAmount>
+      <cbc:BaseAmount currencyID="EUR">1296.30</cbc:BaseAmount>
     </cac:AllowanceCharge>
   </cac:Price>
 </cac:InvoiceLine>

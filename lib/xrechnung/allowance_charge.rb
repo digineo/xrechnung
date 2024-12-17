@@ -24,7 +24,7 @@ module Xrechnung
 
     # @!attribute base_amount
     #   @return [Xrechnung::Currency]
-    member :base_amount, type: Xrechnung::Currency
+    member :base_amount, type: Xrechnung::Currency, optional: true
 
     # @!attribute tax_category
     #   @return [Xrechnung::TaxCategory]
@@ -35,7 +35,7 @@ module Xrechnung
         kwargs[:amount] = Currency::EUR(kwargs[:amount])
       end
 
-      unless kwargs[:base_amount].is_a?(Currency)
+      unless kwargs[:base_amount].is_a?(Currency) || kwargs[:base_amount].nil?
         kwargs[:base_amount] = Currency::EUR(kwargs[:base_amount])
       end
 
@@ -60,7 +60,10 @@ module Xrechnung
         end
 
         xml.cbc :Amount, *amount.xml_args
-        xml.cbc :BaseAmount, *base_amount.xml_args
+
+        if base_amount
+          xml.cbc :BaseAmount, *base_amount.xml_args
+        end
 
         tax_category&.to_xml(xml)
       end

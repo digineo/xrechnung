@@ -85,7 +85,7 @@ RSpec.describe Xrechnung do
 
     doc.legal_monetary_total = build_legal_monetary_total
 
-    doc.invoice_lines << build_invoice_line
+    doc.invoice_lines << build_invoice_line_with_allowance_charge
 
     doc.invoice_lines << Xrechnung::InvoiceLine.new(
       id:                    1,
