@@ -1,0 +1,8 @@
+<cac:AdditionalDocumentReference>
+  <cbc:ID>CR44123</cbc:ID>
+  <cbc:DocumentType>Consumption report</cbc:DocumentType>
+  <cbc:DocumentDescription>Lorem Ipsum</cbc:DocumentDescription>
+  <cac:Attachment>
+    <cbc:EmbeddedDocumentBinaryObject mimeCode="text/plain" filename="attachment.txt">SGVsbG8gV29ybGQ=</cbc:EmbeddedDocumentBinaryObject>
+  </cac:Attachment>
+</cac:AdditionalDocumentReference>

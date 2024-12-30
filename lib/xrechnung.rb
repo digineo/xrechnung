@@ -4,6 +4,7 @@ require "xrechnung/currency"
 require "xrechnung/quantity"
 require "xrechnung/id"
 require "xrechnung/member_container"
+require "xrechnung/additional_document_reference"
 require "xrechnung/contact"
 require "xrechnung/party_identification"
 require "xrechnung/party_legal_entity"
@@ -34,7 +35,7 @@ module Xrechnung
 
     # Default customization specs
     DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0"
-    DEFAULT_PROFILE_ID = "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
+    DEFAULT_PROFILE_ID       = "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
 
     # Document customization identifier
     #
@@ -186,6 +187,11 @@ module Xrechnung
     # @!attribute billing_reference
     #   @return [Xrechnung::InvoiceDocumentReference]
     member :billing_reference, type: Xrechnung::InvoiceDocumentReference, optional: true
+
+    # Additional supporting documents BG-24
+    # @!attribute additional_document_references
+    #   @return [Array]
+    member :additional_document_references, type: Array, default: []
 
     # @!attribute invoice_period
     #   @return [Xrechnung::InvoicePeriod]
@@ -341,6 +347,8 @@ module Xrechnung
           end
         end
 
+        additional_document_references.each { _1.to_xml(xml) }
+
         xml.cac :AccountingSupplierParty do
           accounting_supplier_party&.to_xml(xml)
         end
@@ -359,17 +367,13 @@ module Xrechnung
           payment_means&.to_xml(xml)
         end
 
-        unless self.class.members[:payee_party].optional && payee_party.nil?
-          payee_party&.to_xml(xml)
-        end
+        payee_party&.to_xml(xml) unless self.class.members[:payee_party].optional && payee_party.nil?
 
         xml.cac :PaymentTerms do
           xml.cbc :Note, payment_terms_note
         end
 
-        allowance_charges.each do |allowance_charge|
-          allowance_charge&.to_xml(xml)
-        end
+        allowance_charges.each { _1.to_xml(xml) }
 
         xml.cac :TaxTotal do
           tax_total&.to_xml(xml)
@@ -379,9 +383,7 @@ module Xrechnung
           legal_monetary_total&.to_xml(xml)
         end
 
-        invoice_lines.each do |invoice_line|
-          invoice_line&.to_xml(xml)
-        end
+        invoice_lines.each { _1.to_xml(xml) }
       end
 
       target

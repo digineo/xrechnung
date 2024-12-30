@@ -18,5 +18,9 @@ def to_xml(entity)
 end
 
 def expect_xml_eq_fixture(entity, fixture_base_name)
-  expect(to_xml(entity)).to eq File.read("spec/fixtures/scraps/#{fixture_base_name}.xml")
+  path   = "spec/fixtures/scraps/#{fixture_base_name}.xml"
+  actual = to_xml(entity)
+
+  File.open(path, "w") { _1 << actual } if ENV["WRITE_FIXTURES"] == "1"
+  expect(actual).to eq File.read(path)
 end
