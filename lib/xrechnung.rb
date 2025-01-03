@@ -324,7 +324,7 @@ module Xrechnung
               xml.cbc :ID, purchase_order_reference
             end
             unless self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
-              xml.cbc :SalesOrderID, sales_order_reference
+              xml.cbc :ID, sales_order_reference
             end
           end
         end
