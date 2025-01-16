@@ -1,4 +1,6 @@
 <cbc:PaymentMeansCode>30</cbc:PaymentMeansCode>
+<cbc:InstructionNote>Textvermerk der Zahlung</cbc:InstructionNote>
+<cbc:PaymentID>Verwendungszweck</cbc:PaymentID>
 <cac:PayeeFinancialAccount>
   <cbc:ID>DE12500105170648489890</cbc:ID>
   <cbc:Name>Harry Hirsch</cbc:Name>
