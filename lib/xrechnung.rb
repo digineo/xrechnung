@@ -120,7 +120,7 @@ module Xrechnung
     #
     # @!attribute purchase_order_reference
     #   @return [String]
-    member :purchase_order_reference, type: String, optional: true
+    member :purchase_order_reference, type: String
 
     # Sales order reference BT-14
     #
@@ -317,14 +317,12 @@ module Xrechnung
 
         invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
 
-        unless self.class.members[:purchase_order_reference].optional && purchase_order_reference.nil? &&
+        unless purchase_order_reference.nil? &&
                self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
           xml.cac :OrderReference do
-            unless self.class.members[:purchase_order_reference].optional && purchase_order_reference.nil?
-              xml.cbc :ID, purchase_order_reference
-            end
+            xml.cbc :ID, purchase_order_reference
             unless self.class.members[:sales_order_reference].optional && sales_order_reference.nil?
-              xml.cbc :ID, sales_order_reference
+              xml.cbc :SalesOrderID, sales_order_reference
             end
           end
         end

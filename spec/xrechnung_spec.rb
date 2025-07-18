@@ -24,6 +24,7 @@ RSpec.describe Xrechnung do
     doc.tax_point_date           = Date.new(2021, 4, 20)
     doc.buyer_reference          = "9900 0000 - 1234 56 - 23"
     doc.purchase_order_reference = "0815-99-1"
+    doc.sales_order_reference    = "XXYYZZ-123"
 
     doc.billing_reference            = Xrechnung::InvoiceDocumentReference.new
     doc.billing_reference.id         = "Vorangegangene Rechnung 23423"
@@ -72,7 +73,7 @@ RSpec.describe Xrechnung do
       ),
       party_tax_scheme: Xrechnung::PartyTaxScheme.new(
         tax_scheme_id: "VAT",
-        company_id:    "DE214365879"
+        company_id:    "DE214365879",
       ),
       nested:           false,
     )

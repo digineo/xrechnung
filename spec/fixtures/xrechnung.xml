@@ -18,6 +18,7 @@
   </cac:InvoicePeriod>
   <cac:OrderReference>
     <cbc:ID>0815-99-1</cbc:ID>
+    <cbc:SalesOrderID>XXYYZZ-123</cbc:SalesOrderID>
   </cac:OrderReference>
   <cac:BillingReference>
     <cac:InvoiceDocumentReference>
