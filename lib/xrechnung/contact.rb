@@ -8,7 +8,7 @@ module Xrechnung
 
     # @!attribute telephone
     #   @return [String]
-    member :telephone, type: String
+    member :telephone, type: String, optional: true
 
     # @!attribute electronic_mail
     #   @return [String]
@@ -18,7 +18,9 @@ module Xrechnung
     def to_xml(xml)
       xml.cac :Contact do
         xml.cbc :Name, name
-        xml.cbc :Telephone, telephone
+        if telephone
+          xml.cbc :Telephone, telephone
+        end
         xml.cbc :ElectronicMail, electronic_mail
       end
     end
