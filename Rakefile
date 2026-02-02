@@ -4,6 +4,7 @@ require "rspec/core/rake_task"
 require "httparty"
 require "zip"
 
+Zip.on_exists_proc = true
 RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
