@@ -292,16 +292,19 @@ module Xrechnung
     #   @return [Array]
     member :allowance_charges, type: Array, default: []
 
+    COMMON_NAMESPACES = {
+      "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+      "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+      "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+      "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
+      "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
+    }.freeze
+
     def to_xml(indent: 2, target: "")
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
-      xml.ubl :Invoice, \
-        "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
-        "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
-        "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
-        "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
-        "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd" do
+      xml.ubl :Invoice, COMMON_NAMESPACES do
         xml.cbc :CustomizationID, customization_id
         xml.cbc :ProfileID, profile_id
         xml.cbc :ID, id
