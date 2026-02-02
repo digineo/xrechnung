@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "activesupport" # for String#blank? and #present?
   spec.add_dependency "base64"
   spec.add_dependency "bigdecimal"
   spec.add_dependency "builder", "~> 3.2"

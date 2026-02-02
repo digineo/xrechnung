@@ -18,8 +18,8 @@ module Xrechnung
     def to_xml(xml)
       xml.cac :Contact do
         xml.cbc :Name, name
-        xml.cbc :Telephone, telephone
-        xml.cbc :ElectronicMail, electronic_mail
+        xml.cbc :Telephone, telephone if telephone.present?
+        xml.cbc :ElectronicMail, electronic_mail if electronic_mail.present?
       end
     end
   end

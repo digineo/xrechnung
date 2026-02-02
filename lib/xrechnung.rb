@@ -1,5 +1,9 @@
-require "xrechnung/version"
 require "date"
+require "builder"
+
+require "active_support/core_ext/object/blank"
+
+require "xrechnung/version"
 require "xrechnung/currency"
 require "xrechnung/quantity"
 require "xrechnung/id"
@@ -25,7 +29,6 @@ require "xrechnung/price"
 require "xrechnung/invoice_line"
 require "xrechnung/invoice_document_reference"
 require "xrechnung/invoice_period"
-require "builder"
 
 module Xrechnung
   class Error < StandardError; end
