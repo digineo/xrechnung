@@ -1,6 +1,8 @@
 require "pathname"
 require "bundler/gem_tasks"
 require "rspec/core/rake_task"
+require "httparty"
+require "zip"
 
 RSpec::Core::RakeTask.new(:spec)
 
@@ -23,19 +25,15 @@ namespace :validator do
     zipfile = base.join(File.basename(v[:release_url]))
 
     file zipfile do
-      require "httparty"
-
       base.mkpath unless base.exist?
 
       res = HTTParty.get(v[:release_url], follow_redirects: true)
-      File.open(zipfile, "wb") { |f| f.write res.body }
+      File.binwrite(zipfile, res.body)
     end
 
     file v[:filename] => zipfile do
-      require "zip"
-
       Zip::File.foreach(zipfile) do |entry|
-        entry.extract base.join(entry.name)
+        entry.extract destination_directory: base
       end
     end
   end
