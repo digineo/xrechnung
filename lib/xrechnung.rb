@@ -373,8 +373,10 @@ module Xrechnung
 
         payee_party&.to_xml(xml) unless self.class.members[:payee_party].optional && payee_party.nil?
 
-        xml.cac :PaymentTerms do
-          xml.cbc :Note, payment_terms_note
+        unless payment_terms_note.blank?
+          xml.cac :PaymentTerms do
+            xml.cbc :Note, payment_terms_note
+          end
         end
 
         allowance_charges.each { _1.to_xml(xml) }
