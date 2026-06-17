@@ -17,6 +17,12 @@ module Xrechnung
     # • O (Services outside scope of tax)
     # • L (Canary Islands general indirect tax)
     # • M (Tax for production, services and importation in Ceuta and Melilla)
+    #
+    # Note: S, Z, E, AE, K, G, L and M require either a seller VAT identifier (BT-31),
+    # a seller tax registration identifier (BT-32), or a seller tax representative
+    # party (BG-11). Xrechnung::Document currently does not support adding the seller
+    # tax representative party.
+    #
     # @!attribute id
     #   @return [String]
     member :id, type: String

@@ -13,7 +13,7 @@ module Xrechnung
     # noinspection RubyResolve
     def to_xml(xml)
       xml.cac :PartyTaxScheme do
-        xml.cbc :CompanyID, company_id
+        xml.cbc(:CompanyID, company_id) if company_id.present?
         xml.cac :TaxScheme do
           xml.cbc :ID, tax_scheme_id
         end
