@@ -22,6 +22,10 @@ module Xrechnung
     #   @return [Xrechnung::PartyLegalEntity]
     member :party_legal_entity, type: Xrechnung::PartyLegalEntity
 
+    # @!attribute electronic_address
+    #   @return [Xrechnung::ElectronicAddress]
+    member :electronic_address, type: Xrechnung::ElectronicAddress
+
     # @!attribute contact
     #   @return [Xrechnung::Contact]
     member :contact, type: Xrechnung::Contact
@@ -47,7 +51,11 @@ module Xrechnung
     private
 
     def party_body(xml)
-      xml.cbc :EndpointID, contact&.electronic_mail, schemeID: "EM" if contact&.electronic_mail
+      if electronic_address
+        electronic_address.to_xml(xml)
+      elsif contact&.electronic_mail
+        xml.cbc :EndpointID, contact.electronic_mail, schemeID: "EM"
+      end
 
       party_identification&.to_xml(xml)
       unless name.nil? # if blank? -> empty name tag
