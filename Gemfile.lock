@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    xrechnung (0.6.4)
+    xrechnung (0.6.5)
       activesupport
       base64
       bigdecimal
