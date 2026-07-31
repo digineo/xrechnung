@@ -301,7 +301,7 @@ module Xrechnung
       "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
     }.freeze
 
-    def initialize
+    def initialize(...)
       super
       self.legal_monetary_total ||= Xrechnung::LegalMonetaryTotal.new
     end

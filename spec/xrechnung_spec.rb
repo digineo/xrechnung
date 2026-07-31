@@ -19,6 +19,14 @@ RSpec.describe Xrechnung do
     expect(doc2.invoice_lines).to be_empty # Fails - doc1 and doc2 have the same invoice lines
   end
 
+  it "initializing with hash" do
+    doc = Xrechnung::Document.new(
+      id: "0815-99-1-a",
+    )
+
+    expect(doc.id).to eq("0815-99-1-a")
+  end
+
   context "an invoice" do
     subject(:doc) do
       Xrechnung::Document.new
