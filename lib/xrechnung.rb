@@ -37,21 +37,7 @@ module Xrechnung
   class Document
     include MemberContainer
 
-    # Default customization specs
-    DEFAULT_CUSTOMIZATION_ID = "urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0"
-    DEFAULT_PROFILE_ID       = "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0"
-
-    # Document customization identifier
-    #
-    # @!attribute customization_id
-    #   @return [String]
-    member :customization_id, type: String, default: DEFAULT_CUSTOMIZATION_ID
-
-    # Document profile identifier
-    #
-    # @!attribute profile_id
-    #   @return [String]
-    member :profile_id, type: String, default: DEFAULT_PROFILE_ID
+    INVOICE_TYPE_CREDIT_NOTE = 381
 
     # Invoice number BT-1
     #
@@ -294,12 +280,31 @@ module Xrechnung
     member :allowance_charges, type: Array, default: []
 
     COMMON_NAMESPACES = {
-      "xmlns:ubl"          => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
       "xmlns:cac"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
       "xmlns:cbc"          => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
       "xmlns:xsi"          => "http://www.w3.org/2001/XMLSchema-instance",
       "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
     }.freeze
+
+    DocumentType = Data.define(:root, :namespaces, :customization_id, :profile_id)
+
+    SPECS_INVOICE = DocumentType.new(
+      root:             :Invoice,
+      namespaces:       {
+        "xmlns:ubl" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+      }.merge(COMMON_NAMESPACES).freeze,
+      customization_id: "urn:cen.eu:en16931:2017#compliant#urn:xeinkauf.de:kosit:xrechnung_3.0".freeze,
+      profile_id:       "urn:fdc:peppol.eu:2017:poacc:billing:01:1.0".freeze,
+    )
+
+    SPECS_CREDIT_NOTE = DocumentType.new(
+      root:             :CreditNote,
+      namespaces:       {
+        "xmlns:ubl" => "urn:oasis:names:specification:ubl:schema:xsd:CreditNote-2",
+      }.merge(COMMON_NAMESPACES).freeze,
+      customization_id: "urn:oasis:names:specification:ubl:xpath:CreditNote-2.0:sbs-1.0-draft".freeze,
+      profile_id:       "bpid:urn:oasis:names:draft:bpss:ubl-2-sbs-credit-notification-draft".freeze,
+    )
 
     def initialize(...)
       super
@@ -310,19 +315,29 @@ module Xrechnung
       legal_monetary_total.prepaid_amount = value
     end
 
+    def credit_note?
+      invoice_type_code == INVOICE_TYPE_CREDIT_NOTE
+    end
+
     def to_xml(indent: 2, target: "")
       update_amounts
 
-      xml = Builder::XmlMarkup.new(indent: indent, target: target)
+      specs = credit_note? ? SPECS_CREDIT_NOTE : SPECS_INVOICE
+      xml   = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
-      xml.ubl :Invoice, COMMON_NAMESPACES do
-        xml.cbc :CustomizationID, customization_id
-        xml.cbc :ProfileID, profile_id
+      xml.ubl specs.root, specs.namespaces do
+        xml.cbc :CustomizationID, specs.customization_id
+        xml.cbc :ProfileID, specs.profile_id
         xml.cbc :ID, id
         xml.cbc :IssueDate, issue_date
         xml.cbc :DueDate, due_date
-        xml.cbc :InvoiceTypeCode, invoice_type_code
+
+        if credit_note?
+          xml.cbc :CreditNoteTypeCode, invoice_type_code
+        else
+          xml.cbc :InvoiceTypeCode, invoice_type_code
+        end
 
         notes.each do |note|
           xml.cbc :Note, note
@@ -403,7 +418,8 @@ module Xrechnung
           legal_monetary_total&.to_xml(xml)
         end
 
-        invoice_lines.each { _1.to_xml(xml) }
+        line_root = :"#{specs.root}Line"
+        invoice_lines.each { _1.to_xml(xml, line_root) }
       end
 
       target

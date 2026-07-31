@@ -163,7 +163,7 @@ RSpec.describe Xrechnung do
             name:                            "Gutschrift",
             description:                     "für X und Y",
             standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
-            classified_tax_category:         tax_category_19,
+            classified_tax_category:         build_tax_category,
           ),
           price:                 Xrechnung::Price.new(
             price_amount:  99.5,
@@ -191,7 +191,7 @@ RSpec.describe Xrechnung do
             name:                            "Gutschrift",
             description:                     "für X und Y",
             standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
-            classified_tax_category:         tax_category_19,
+            classified_tax_category:         build_tax_category,
           ),
           price:                 Xrechnung::Price.new(
             price_amount:  99.5,

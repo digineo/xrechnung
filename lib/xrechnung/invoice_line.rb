@@ -36,12 +36,12 @@ module Xrechnung
       unless kwargs[:line_extension_amount].is_a?(Currency)
         kwargs[:line_extension_amount] = Currency::EUR(kwargs[:line_extension_amount])
       end
-      super(**kwargs)
+      super
     end
 
     # noinspection RubyResolve
-    def to_xml(xml)
-      xml.cac :InvoiceLine do
+    def to_xml(xml, root = :InvoiceLine)
+      xml.cac root do
         xml.cbc :ID, id
         xml.cbc :InvoicedQuantity, invoiced_quantity.amount_to_s, unitCode: invoiced_quantity.unit_code
         xml.cbc :LineExtensionAmount, *line_extension_amount.xml_args
