@@ -11,8 +11,8 @@ jobs:
 
     - uses: actions/setup-java@v5
       with:
-        distribution: "adopt"
-        java-version: "17"
+        distribution: "temurin"
+        java-version: "25"
 
     - uses: ruby/setup-ruby@v1
       with:
