@@ -83,14 +83,6 @@ RSpec.describe Xrechnung do
       )
     }
 
-    let(:tax_category_19) {
-      Xrechnung::TaxCategory.new(
-        id:            "S",
-        percent:       19,
-        tax_scheme_id: "VAT",
-      )
-    }
-
     def read_fixture(name)
       File.read("spec/fixtures/#{name}.xml")
         .gsub!(/\s*<!--.+?-->/mi, "") # Remove XML comments
@@ -132,28 +124,29 @@ RSpec.describe Xrechnung do
         )
 
         doc.invoice_lines << build_invoice_line_with_allowance_charge
-        doc.invoice_lines << Xrechnung::InvoiceLine.new(
-          id:                    1,
-          invoice_period:        Xrechnung::InvoicePeriod.new(start_date: Date.new(2021, 4, 7), end_date: Date.new(2021, 4, 13)),
-          invoiced_quantity:     Xrechnung::Quantity.new(5, "XPP"),
-          line_extension_amount: 1285.70,
-          item:                  Xrechnung::Item.new(
-            description:                     "Dichtungsfolie 2.5 mm stark, 1.5 m breit",
-            name:                            "Dichtungsfolie",
-            standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
-            commodity_classification:        nil,
-            classified_tax_category:         tax_category_7,
-          ),
-          price:                 Xrechnung::Price.new(
-            price_amount:     257.14,
-            base_quantity:    Xrechnung::Quantity.new(1, "XPP"),
-            allowance_charge: Xrechnung::AllowanceCharge.new(
-              charge_indicator: false,
-              amount:           0,
-              base_amount:      257.14,
+
+        [2, 5].each.with_index do |quantity, i|
+          doc.invoice_lines << Xrechnung::InvoiceLine.new(
+            id:                    i + 1,
+            invoice_period:        Xrechnung::InvoicePeriod.new(
+              start_date: Date.new(2021, 4, 7) + i,
+              end_date:   Date.new(2021, 4, 13) + i,
             ),
-          ),
-        )
+            invoiced_quantity:     Xrechnung::Quantity.new(quantity, "XPP"),
+            line_extension_amount: 1285.70,
+            item:                  Xrechnung::Item.new(
+              description:                     "Dichtungsfolie 2.#{quantity} mm stark, 1.5 m breit",
+              name:                            "Dichtungsfolie",
+              standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
+              commodity_classification:        nil,
+              classified_tax_category:         build_tax_category,
+            ),
+            price:                 Xrechnung::Price.new(
+              price_amount:  257.14,
+              base_quantity: Xrechnung::Quantity.new(1, "XPP"),
+            ),
+          )
+        end
 
         expect(doc.to_xml).to match_fixture("commercial_invoice")
       end

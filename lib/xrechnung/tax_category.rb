@@ -43,6 +43,16 @@ module Xrechnung
     #   @return [String]
     member :tax_exemption_reason, type: String
 
+    def ==(other)
+      return false unless other.is_a?(Xrechnung::TaxCategory)
+
+      id == other.id &&
+        percent == other.percent &&
+        tax_scheme_id == other.tax_scheme_id &&
+        tax_exemption_reason_code == other.tax_exemption_reason_code &&
+        tax_exemption_reason == other.tax_exemption_reason
+    end
+
     # noinspection RubyResolve
     def to_xml(xml, root_tag_name: :TaxCategory)
       xml.cac root_tag_name do
