@@ -153,7 +153,24 @@ RSpec.describe Xrechnung do
 
       it "corrected invoice" do
         doc.invoice_type_code = 384
-        doc.invoice_lines << build_invoice_line_with_allowance_charge
+
+        doc.invoice_lines << Xrechnung::InvoiceLine.new(
+          id:                    1,
+          invoice_period:        Xrechnung::InvoicePeriod.new(start_date: Date.new(2021, 4, 7), end_date: Date.new(2021, 4, 13)),
+          invoiced_quantity:     Xrechnung::Quantity.new(-3, "XPP"),
+          line_extension_amount: -298.5,
+          item:                  Xrechnung::Item.new(
+            name:                            "Gutschrift",
+            description:                     "für X und Y",
+            standard_item_identification_id: Xrechnung::Id.new("D4567890", "0160"),
+            classified_tax_category:         tax_category_19,
+          ),
+          price:                 Xrechnung::Price.new(
+            price_amount:  99.5,
+            base_quantity: Xrechnung::Quantity.new(1, "XPP"),
+          ),
+        )
+
         doc.billing_reference = Xrechnung::InvoiceDocumentReference.new(
           id:         "Vorangegangene Rechnung 23423",
           issue_date: Date.new(2020, 4, 23),
