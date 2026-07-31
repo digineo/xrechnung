@@ -262,7 +262,7 @@ module Xrechnung
     #
     # @!attribute tax_total
     #   @return [Xrechnung::TaxTotal]
-    member :tax_total, type: Xrechnung::TaxTotal
+    member :tax_total, type: Xrechnung::TaxTotal, is_private: true
 
     # DOCUMENT TOTALS BG-22
     #
@@ -271,7 +271,7 @@ module Xrechnung
     #
     # @!attribute legal_monetary_total
     #   @return [Xrechnung::LegalMonetaryTotal]
-    member :legal_monetary_total, type: Xrechnung::LegalMonetaryTotal
+    member :legal_monetary_total, type: Xrechnung::LegalMonetaryTotal, is_private: true
 
     # INVOICE LINE BG-25
     #
@@ -301,7 +301,18 @@ module Xrechnung
       "xsi:schemaLocation" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2 http://docs.oasis-open.org/ubl/os-UBL-2.1/xsd/maindoc/UBL-Invoice-2.1.xsd",
     }.freeze
 
+    def initialize
+      super
+      self.legal_monetary_total ||= Xrechnung::LegalMonetaryTotal.new
+    end
+
+    def prepaid_amount=(value)
+      legal_monetary_total.prepaid_amount = value
+    end
+
     def to_xml(indent: 2, target: "")
+      update_amounts
+
       xml = Builder::XmlMarkup.new(indent: indent, target: target)
       xml.instruct! :xml, version: "1.0", encoding: "UTF-8"
 
@@ -368,8 +379,10 @@ module Xrechnung
           end
         end
 
-        xml.cac :PaymentMeans do
-          payment_means&.to_xml(xml)
+        if payment_means
+          xml.cac :PaymentMeans do
+            payment_means&.to_xml(xml)
+          end
         end
 
         payee_party&.to_xml(xml) unless self.class.members[:payee_party].optional && payee_party.nil?
@@ -394,6 +407,49 @@ module Xrechnung
       end
 
       target
+    end
+
+    def update_amounts
+      self.tax_total = Xrechnung::TaxTotal.new
+
+      invoice_lines.each do |invoice_line|
+        tax_total.get_tax_subtotal(invoice_line.item.classified_tax_category).taxable_amount += invoice_line.line_extension_amount
+      end
+
+      allowance_charges.each do |ac|
+        element = tax_total.get_tax_subtotal(ac.tax_category)
+        if ac.charge_indicator
+          element.taxable_amount += ac.amount
+        else
+          element.taxable_amount -= ac.amount
+        end
+      end
+
+      tax_total.update_amounts
+
+      currency_id = tax_total.tax_amount.currency_id
+      zero        = Xrechnung::Currency.new(currency_id: currency_id, value: BigDecimal(0))
+
+      legal_monetary_total.line_extension_amount  = zero
+      legal_monetary_total.allowance_total_amount = zero
+      legal_monetary_total.charge_total_amount    = zero
+      legal_monetary_total.prepaid_amount       ||= zero
+
+      invoice_lines.each do |line|
+        legal_monetary_total.line_extension_amount += line.line_extension_amount
+      end
+
+      allowance_charges.each do |ac|
+        if ac.charge_indicator
+          legal_monetary_total.charge_total_amount += ac.amount
+        else
+          legal_monetary_total.allowance_total_amount += ac.amount
+        end
+      end
+
+      legal_monetary_total.tax_exclusive_amount = legal_monetary_total.line_extension_amount + legal_monetary_total.charge_total_amount - legal_monetary_total.allowance_total_amount
+      legal_monetary_total.tax_inclusive_amount = legal_monetary_total.tax_exclusive_amount + tax_total.tax_amount
+      legal_monetary_total.payable_amount       = legal_monetary_total.tax_inclusive_amount - legal_monetary_total.prepaid_amount
     end
   end
 end

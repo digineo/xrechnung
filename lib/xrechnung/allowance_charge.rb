@@ -8,7 +8,7 @@ module Xrechnung
 
     # @!attribute allowance_charge_reason_code
     #   @return [String]
-    member :allowance_charge_reason_code, type: Integer
+    member :allowance_charge_reason_code, type: String
 
     # @!attribute allowance_charge_reason
     #   @return [String]
@@ -31,15 +31,13 @@ module Xrechnung
     member :tax_category, type: Xrechnung::TaxCategory
 
     def initialize(**kwargs)
-      unless kwargs[:amount].is_a?(Currency)
-        kwargs[:amount] = Currency::EUR(kwargs[:amount])
-      end
+      kwargs[:amount] = Currency::EUR(kwargs[:amount]) unless kwargs[:amount].is_a?(Currency)
 
       unless kwargs[:base_amount].is_a?(Currency) || kwargs[:base_amount].nil?
         kwargs[:base_amount] = Currency::EUR(kwargs[:base_amount])
       end
 
-      super(**kwargs)
+      super
     end
 
     # noinspection RubyResolve
@@ -47,23 +45,15 @@ module Xrechnung
       xml.cac :AllowanceCharge do
         xml.cbc :ChargeIndicator, charge_indicator
 
-        if allowance_charge_reason_code
-          xml.cbc :AllowanceChargeReasonCode, allowance_charge_reason_code
-        end
+        xml.cbc :AllowanceChargeReasonCode, allowance_charge_reason_code if allowance_charge_reason_code
 
-        if allowance_charge_reason
-          xml.cbc :AllowanceChargeReason, allowance_charge_reason
-        end
+        xml.cbc :AllowanceChargeReason, allowance_charge_reason if allowance_charge_reason
 
-        if multiplier_factor_numeric
-          xml.cbc :MultiplierFactorNumeric, format("%.2f", multiplier_factor_numeric)
-        end
+        xml.cbc :MultiplierFactorNumeric, format("%.2f", multiplier_factor_numeric) if multiplier_factor_numeric
 
         xml.cbc :Amount, *amount.xml_args
 
-        if base_amount
-          xml.cbc :BaseAmount, *base_amount.xml_args
-        end
+        xml.cbc :BaseAmount, *base_amount.xml_args if base_amount
 
         tax_category&.to_xml(xml)
       end

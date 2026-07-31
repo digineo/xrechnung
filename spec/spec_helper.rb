@@ -19,9 +19,20 @@ def to_xml(entity)
 end
 
 def expect_xml_eq_fixture(entity, fixture_base_name)
-  path   = "spec/fixtures/scraps/#{fixture_base_name}.xml"
-  actual = to_xml(entity)
+  expect(to_xml(entity)).to match_fixture("scraps/#{fixture_base_name}")
+end
 
-  File.open(path, "w") { _1 << actual } if ENV["WRITE_FIXTURES"] == "1"
-  expect(actual).to eq File.read(path)
+RSpec::Matchers.define :match_fixture do |filename|
+  path = "spec/fixtures/#{filename}.xml"
+
+  match do |actual|
+    # Update fixtures?
+    File.write(path, actual) if ENV["WRITE_FIXTURES"] == "1"
+
+    @expected = File.read(path)
+    actual == @expected
+  end
+
+  diffable
+  attr_reader :expected
 end

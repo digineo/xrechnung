@@ -11,6 +11,6 @@ def build_line_item_allowance_charge
     charge_indicator:             false,
     amount:                       1,
     allowance_charge_reason:      "Rabatt",
-    allowance_charge_reason_code: 95,
+    allowance_charge_reason_code: "95",
   )
 end

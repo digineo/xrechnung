@@ -10,6 +10,22 @@ module Xrechnung
     def xml_args
       [value_to_s, { currencyID: currency_id }]
     end
+
+    def self.check_matching_attributes(one, other)
+      raise ArgumentError, "other must be a Currency" unless one.is_a? Currency
+      raise ArgumentError, "other must be a Currency" unless other.is_a? Currency
+      raise ArgumentError, "currency_id must match" unless one.currency_id == other.currency_id
+    end
+
+    def +(other)
+      self.class.check_matching_attributes(self, other)
+      Currency.new(currency_id: currency_id, value: value + other.value)
+    end
+
+    def -(other)
+      self.class.check_matching_attributes(self, other)
+      Currency.new(currency_id: currency_id, value: value - other.value)
+    end
   end
 
   class << Currency

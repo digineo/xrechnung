@@ -32,6 +32,7 @@ module Xrechnung
 
     def initialize(**kwargs)
       super
+      self.tax_amount     ||= Currency::EUR(0)
       self.taxable_amount ||= Currency::EUR(0)
     end
 
@@ -42,6 +43,12 @@ module Xrechnung
         xml.cbc :TaxAmount, *tax_amount.xml_args
         tax_category&.to_xml(xml)
       end
+    end
+
+    def update_amount
+      value           = taxable_amount.value * tax_category.percent / 100
+      self.tax_amount = Currency::EUR(value)
+      value
     end
   end
 end

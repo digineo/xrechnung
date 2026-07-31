@@ -42,5 +42,21 @@ module Xrechnung
       end
       xml.target!
     end
+
+    def update_amounts
+      value           = tax_subtotals.sum(&:update_amount)
+      self.tax_amount = Xrechnung::Currency::EUR(value)
+    end
+
+    def get_tax_subtotal(tax_category)
+      element = tax_subtotals.find { _1.tax_category == tax_category }
+
+      unless element
+        element = Xrechnung::TaxSubtotal.new(tax_category: tax_category)
+        tax_subtotals << element
+      end
+
+      element
+    end
   end
 end

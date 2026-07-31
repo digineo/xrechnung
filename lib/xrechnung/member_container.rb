@@ -24,7 +24,7 @@ module Xrechnung
       send("#{key}=", value)
     end
 
-    Member = Struct.new(:type, :default, :optional, :transform_value, keyword_init: true)
+    Member = Struct.new(:type, :default, :optional, :is_private, :transform_value, keyword_init: true)
 
     module ClassMethods
       def members
@@ -53,6 +53,11 @@ module Xrechnung
 
           instance_variable_set :"@#{member_name}", in_value
         end
+
+        return unless member.is_private
+
+        private member_name
+        private setter_name
       end
     end
   end
