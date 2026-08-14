@@ -172,6 +172,9 @@ module Xrechnung
     #   @return [String]
     member :tax_currency_code, type: String
 
+    # Buyer accounting reference BT-19
+    member :buyer_accounting_reference, type: String, optional: true
+
     # Buyer reference BT-10
     #
     # Ein vom Erwerber zugewiesener und für interne Lenkungszwecke benutzter Bezeichner.
@@ -331,6 +334,7 @@ module Xrechnung
         xml.cbc :TaxPointDate, tax_point_date unless tax_point_date.nil?
         xml.cbc :DocumentCurrencyCode, document_currency_code
         xml.cbc :TaxCurrencyCode, tax_currency_code unless tax_currency_code.nil?
+        xml.cbc :AccountingCost, buyer_accounting_reference unless buyer_accounting_reference.nil?
         xml.cbc :BuyerReference, buyer_reference
 
         invoice_period&.to_xml(xml) unless self.class.members[:invoice_period].optional && invoice_period.nil?
