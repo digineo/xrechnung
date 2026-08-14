@@ -90,15 +90,16 @@ RSpec.describe Xrechnung do
 
     context "generating xml" do
       before do
-        doc.id                       = "0815-99-1-a"
-        doc.issue_date               = Date.parse("2020-08-21")
-        doc.due_date                 = Date.parse("2020-08-31")
-        doc.notes                    = ["#AAI#Rechnungsbetreff: Informationen zur Rechnung 1",
-                                        "#AAI#Informationen zur Rechnung 2"]
-        doc.tax_point_date           = Date.new(2021, 4, 20)
-        doc.buyer_reference          = "9900 0000 - 1234 56 - 23"
-        doc.purchase_order_reference = "0815-99-1"
-        doc.sales_order_reference    = "XXYYZZ-123"
+        doc.id                         = "0815-99-1-a"
+        doc.issue_date                 = Date.parse("2020-08-21")
+        doc.due_date                   = Date.parse("2020-08-31")
+        doc.notes                      = ["#AAI#Rechnungsbetreff: Informationen zur Rechnung 1",
+                                          "#AAI#Informationen zur Rechnung 2"]
+        doc.tax_point_date             = Date.new(2021, 4, 20)
+        doc.buyer_reference            = "9900 0000 - 1234 56 - 23"
+        doc.buyer_accounting_reference = "0XDEADBEEF"
+        doc.purchase_order_reference   = "0815-99-1"
+        doc.sales_order_reference      = "XXYYZZ-123"
 
         doc.invoice_period            = Xrechnung::InvoicePeriod.new
         doc.invoice_period.start_date = Date.new(2021, 4, 1)

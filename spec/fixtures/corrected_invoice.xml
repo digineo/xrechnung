@@ -10,6 +10,7 @@
   <cbc:Note>#AAI#Informationen zur Rechnung 2</cbc:Note>
   <cbc:TaxPointDate>2021-04-20</cbc:TaxPointDate>
   <cbc:DocumentCurrencyCode>EUR</cbc:DocumentCurrencyCode>
+  <cbc:AccountingCost>0XDEADBEEF</cbc:AccountingCost>
   <cbc:BuyerReference>9900 0000 - 1234 56 - 23</cbc:BuyerReference>
   <cac:InvoicePeriod>
     <cbc:StartDate>2021-04-01</cbc:StartDate>
