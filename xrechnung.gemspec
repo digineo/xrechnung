@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "base64"
   spec.add_dependency "bigdecimal"
   spec.add_dependency "builder", "~> 3.2"
+  spec.add_dependency "nokogiri"
 end

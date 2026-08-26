@@ -41,7 +41,7 @@ module Xrechnung
       xml.cac :TaxSubtotal do
         xml.cbc :TaxableAmount, *taxable_amount.xml_args
         xml.cbc :TaxAmount, *tax_amount.xml_args
-        tax_category&.to_xml(xml)
+        tax_category&.to_xml(xml, include_exemption_fields: true)
       end
     end
 

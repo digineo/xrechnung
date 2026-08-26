@@ -9,3 +9,13 @@ def build_item
     classified_tax_category:         build_tax_category,
   )
 end
+
+def build_item_with_exempt_tax_category
+  Xrechnung::Item.new(
+    description:                     "Leimbinder 2x18m; Birke",
+    name:                            "Leimbinder",
+    standard_item_identification_id: Xrechnung::Id.new("L218", "0160"),
+    commodity_classification:        nil,
+    classified_tax_category:         build_tax_category(exempt: true),
+  )
+end
