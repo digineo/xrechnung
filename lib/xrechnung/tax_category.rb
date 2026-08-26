@@ -54,12 +54,12 @@ module Xrechnung
     end
 
     # noinspection RubyResolve
-    def to_xml(xml, root_tag_name: :TaxCategory)
+    def to_xml(xml, root_tag_name: :TaxCategory, include_exemption_fields: true)
       xml.cac root_tag_name do
         xml.cbc :ID, id
         xml.cbc :Percent, format("%.2f", percent) unless percent.nil?
 
-        unless tax_exemption_reason_code.nil?
+        if include_exemption_fields && tax_exemption_reason_code.present?
           xml.cbc :TaxExemptionReasonCode, tax_exemption_reason_code
           xml.cbc :TaxExemptionReason, tax_exemption_reason
         end

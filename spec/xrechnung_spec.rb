@@ -1,4 +1,6 @@
 require "date"
+require "nokogiri"
+
 load("spec/fixtures/ruby/party.rb")
 load("spec/fixtures/ruby/payment_means.rb")
 load("spec/fixtures/ruby/tax_total.rb")
@@ -30,6 +32,14 @@ RSpec.describe Xrechnung do
   context "an invoice" do
     subject(:doc) do
       Xrechnung::Document.new
+    end
+
+    let(:namespaces) do
+      {
+        "ubl" => "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
+        "cac" => "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
+        "cbc" => "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2",
+      }
     end
 
     let(:accounting_customer_party) {
@@ -161,6 +171,31 @@ RSpec.describe Xrechnung do
         )
 
         expect(doc.to_xml).to match_fixture("corrected_invoice")
+      end
+
+      context "TaxExemptionReasonCode, TaxExemptionReason" do
+        before do
+          doc.invoice_lines << build_invoice_line_with_item_with_exempt_tax_category
+        end
+
+        let(:xml_doc) { Nokogiri::XML(doc.to_xml) }
+
+        shared_examples_for "check xpath node presence" do |xpath, matcher|
+          it "checks xpath node" do
+            nodes = xml_doc.xpath(xpath, namespaces)
+            expect(nodes).to send(matcher)
+          end
+        end
+
+        context "TaxTotal/TaxSubtotal/TaxCategory" do
+          it_behaves_like "check xpath node presence", "//cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReasonCode", :be_present
+          it_behaves_like "check xpath node presence", "//cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cbc:TaxExemptionReason", :be_present
+        end
+
+        context "InvoiceLine" do
+          it_behaves_like "check xpath node presence", "//cac:InvoiceLine//cbc:TaxExemptionReasonCode", :be_empty
+          it_behaves_like "check xpath node presence", "//cac:InvoiceLine//cbc:TaxExemptionReason", :be_empty
+        end
       end
     end
 

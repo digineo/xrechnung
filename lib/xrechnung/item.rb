@@ -56,7 +56,7 @@ module Xrechnung
 
         xml.cac :CommodityClassification, commodity_classification unless commodity_classification.nil?
 
-        classified_tax_category&.to_xml(xml, root_tag_name: :ClassifiedTaxCategory)
+        classified_tax_category&.to_xml(xml, root_tag_name: :ClassifiedTaxCategory, include_exemption_fields: false)
       end
     end
   end
